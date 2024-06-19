@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
+import { accessKeyId, secretAccessKey } from 'src/constants/aws_key';
 import { Readable } from 'stream';
 
 @Injectable()
@@ -9,8 +10,8 @@ export class AwsService {
   constructor() {
     AWS.config.update({
       region: 'ap-southeast-2',
-      accessKeyId: 'AKIAZI2LHDMJSDXDMDPZ',
-      secretAccessKey: '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',
+      accessKeyId: accessKeyId,
+      secretAccessKey: secretAccessKey,
     });
 
     this.s3 = new AWS.S3();
