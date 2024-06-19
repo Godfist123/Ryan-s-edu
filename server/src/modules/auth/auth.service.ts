@@ -8,18 +8,21 @@ import { getRandomCodes } from 'src/utils';
 import { plainResult } from 'src/dto/result.type';
 import { FAIL, FREQUENTLY, SUCCESS } from 'src/constants/status_code';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async sendOTP(tel: string): Promise<plainResult> {
     const code = getRandomCodes();
+    console.log(this.configService.get<string>('ALIYUN_ACCESS_KEY'));
     const config = new $OpenApi.Config({
-      accessKeyId: ALIYUN.ACCESS_KEY,
-      accessKeySecret: ALIYUN.ACCESS_SECRET,
+      accessKeyId: this.configService.get<any>('ALIYUN_ACCESS_KEY'),
+      accessKeySecret: this.configService.get<any>('ALIYUN_SECRET_ACCESS_KEY'),
     });
     config.endpoint = `dysmsapi.aliyuncs.com`;
     const client = new Dysmsapi20170525(config);
