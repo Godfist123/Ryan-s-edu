@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  justify-content: flex-start; // Aligns children to the start of the container along the main axis
+  align-items: center; // Centers children along the cross-axis (horizontally)
+  height: 100vh;
+  width: 100vw;
+  background-color: #f5f5f5;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.header {
+  display: flex; // Makes header a flex container
+  align-items: center; // Vertically centers the children
+  justify-content: flex-start; // Horizontally centers the children
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 200px;
+  height: 30px;
+
+  h1 {
+    font-size: 20px;
+    color: #333;
+    margin: 0 10px; // Add horizontal margin for spacing between image and h1
+  }
+
+  p {
+    font-size: 14px;
+    color: #666;
+  }
+}
+
+.main {
+  flex: 1;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+
+  a {
+    color: #1890ff;
+  }
+}
