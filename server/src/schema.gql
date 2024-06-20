@@ -16,11 +16,16 @@ type plainResult {
 }
 
 type Query {
-  """Find one users"""
+  """Find one user"""
   findOne(id: String!): UserType!
+
+  """Find one user by tel"""
+  findOneByTel(tel: String!): UserType!
 }
 
 type Mutation {
+  sendOTP(tel: String!): plainResult!
+  checkOTP(tel: String!, code: String!): plainResult!
   create(params: UserInput!): Boolean!
 
   """Update user"""
@@ -28,8 +33,6 @@ type Mutation {
 
   """Delete user"""
   delete(id: String!): Boolean!
-  sendOTP(tel: String!): plainResult!
-  checkOTP(tel: String!, code: String!): plainResult!
 }
 
 input UserInput {

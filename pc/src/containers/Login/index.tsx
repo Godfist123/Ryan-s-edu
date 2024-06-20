@@ -9,9 +9,11 @@ import { LockOutlined, MobileOutlined } from "@ant-design/icons";
 import { Space, message, theme, Typography } from "antd";
 import styles from "./index.module.scss";
 import { Link, useNavigate } from "react-router-dom";
-import { useMutation } from "@apollo/client";
-import { checkOTP, sendOTP } from "../../graphql/auth";
+import { useMutation, useQuery } from "@apollo/client";
+import { checkOTP, getUserByTel, sendOTP } from "../../graphql/auth";
 import { AUTH_TOKEN } from "../../utils/constants";
+import { useContext } from "react";
+import { UserContext } from "../../utils/context/UserContext";
 
 const Login = () => {
   const { token } = theme.useToken();
@@ -26,13 +28,23 @@ const Login = () => {
     autoLogin: boolean;
   }
 
+  const GetUserData = (tel: string) => {
+    const { data } = useQuery(getUserByTel, {
+      variables: { tel },
+    });
+    const [, setUserData] = useContext(UserContext);
+    setUserData(data.findOneByTel);
+  };
+
   const Login = async (values: ILogin) => {
     const res = await runCheckOTP({
       variables: { tel: values.mobile, code: values.captcha },
     });
     if (res.data.checkOTP.code === 200) {
-      if (values.autoLogin)
+      if (values.autoLogin) {
         localStorage.setItem(AUTH_TOKEN, res.data.checkOTP.token);
+      }
+      GetUserData(values.mobile);
       message.success(res.data.checkOTP.message);
       navi("/");
     } else {

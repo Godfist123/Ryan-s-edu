@@ -18,3 +18,13 @@ export const checkOTP = gql`
     }
   }
 `;
+
+export const getUserByTel = gql`
+  query GetUserByTel($tel: String!) {
+    findOneByTel(tel: $tel) {
+      name
+      desc
+      account
+    }
+  }
+`;

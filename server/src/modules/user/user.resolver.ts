@@ -12,9 +12,14 @@ export class UserResolver {
     return await this.userService.create(params);
   }
 
-  @Query(() => UserType, { description: 'Find one users' })
+  @Query(() => UserType, { description: 'Find one user' })
   async findOne(@Args('id') id: string): Promise<UserType> {
     return await this.userService.findOne(id);
+  }
+
+  @Query(() => UserType, { description: 'Find one user by tel' })
+  async findOneByTel(@Args('tel') tel: string): Promise<UserType> {
+    return await this.userService.findByTel(tel);
   }
 
   @Mutation(() => Boolean, { description: 'Update user' })
