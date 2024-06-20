@@ -1,25 +1,24 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
+    "module": "esnext",
+    "target": "es5",               // Compiles TypeScript to ECMAScript 5 for broad browser compatibility
+    "lib": ["dom", "es6", "dom.iterable", "scripthost"],
+    "jsx": "react-jsx",            // Use the modern JSX transform with React 17+
+    "esModuleInterop": true,       // Enables compatibility with Babel-compiled modules
+    "moduleResolution": "node",    // Mimics Node's module resolution
+    "strict": true,                // Enable all strict type-checking options
+    "noEmit": true,                // No files are emitted, useful when using Babel for transpilation
+    "isolatedModules": true,       // Ensures each file can be transpiled independently, required for Babel
+    "skipLibCheck": true,          // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true, // Ensures filenames are case-consistently referenced
+    "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    // Linting related options
+    "noUnusedLocals": true,        // Report errors on unused locals
+    "noUnusedParameters": true,    // Report errors on unused parameters
+    "noFallthroughCasesInSwitch": true // Report errors for fallthrough cases in switch statement
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"],             // Only files in the src directory are included in the compilation
+  "exclude": ["node_modules"],    // Exclude node_modules from compilation to speed up the process
+  "references": [{ "path": "./tsconfig.node.json" }] // Reference additional tsconfig files
 }
