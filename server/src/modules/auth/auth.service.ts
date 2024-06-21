@@ -84,7 +84,7 @@ export class AuthService {
       };
     }
     const diffTime = Date.now() - new Date(user.otpCreateAt).getTime();
-    if (diffTime > 5 * 60 * 1000) {
+    if (diffTime > 5 * 60 * 60 * 1000) {
       console.log('otp expired');
       return {
         code: FAIL,

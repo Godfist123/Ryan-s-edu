@@ -24,8 +24,6 @@ type Query {
 }
 
 type Mutation {
-  sendOTP(tel: String!): plainResult!
-  checkOTP(tel: String!, code: String!): plainResult!
   create(params: UserInput!): Boolean!
 
   """Update user"""
@@ -33,6 +31,8 @@ type Mutation {
 
   """Delete user"""
   delete(id: String!): Boolean!
+  sendOTP(tel: String!): plainResult!
+  checkOTP(tel: String!, code: String!): plainResult!
 }
 
 input UserInput {

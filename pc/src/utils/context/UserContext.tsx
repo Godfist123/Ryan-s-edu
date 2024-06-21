@@ -1,9 +1,15 @@
-// src/contexts/UserContext.js
 import { createContextProvider } from "../../utils/context/ContextFactory";
 
-const defaultUserState = {
-  user: null,
+export interface IUser {
+  name: string;
+  desc: string;
+  account: string;
+}
+const defaultUserState: IUser = {
+  name: "",
+  desc: "",
+  account: "",
 };
 
 export const { Context: UserContext, Provider: UserProvider } =
-  createContextProvider(defaultUserState);
+  createContextProvider<IUser>(defaultUserState);
