@@ -26,4 +26,7 @@ export class User {
 
   @Column({ comment: 'otpCreateAt', nullable: true })
   otpCreateAt: Date;
+
+  @Column({ comment: 'token', nullable: true })
+  token: string;
 }

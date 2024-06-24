@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LoginForm,
   ProConfigProvider,
@@ -13,7 +13,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
 import { checkOTP, getUserByTel, sendOTP } from "../../graphql/auth";
 import { AUTH_TOKEN } from "../../utils/constants";
-import { UserContext } from "../../utils/context/UserContext";
 import withUser, {
   WithUserDataProps,
 } from "../../utils/context/WithUserContext";
@@ -55,10 +54,9 @@ const Login: React.FC<WithUserDataProps> = ({ setUserData }) => {
       variables: { tel: values.mobile, code: values.captcha },
     });
     if (res.data.checkOTP.code === 200) {
-      localStorage.setItem(AUTH_TOKEN, res.data.checkOTP.token);
+      localStorage.setItem(AUTH_TOKEN, res.data.checkOTP.data);
       message.success("Login successful");
       setMobile(values.mobile);
-      // navigate("/");
     } else {
       message.error(res.data.checkOTP.message);
     }

@@ -14,7 +14,7 @@ import { GqlAuthGuard } from './auth.guard';
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
       secret: JWT_KEY,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '1d' },
     }),
   ],
   providers: [

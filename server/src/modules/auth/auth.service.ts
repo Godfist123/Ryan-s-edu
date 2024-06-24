@@ -5,10 +5,12 @@ import * as $Util from '@alicloud/tea-util';
 import ALIYUN from 'src/constants/aliyun';
 import { UserService } from '../user/user.service';
 import { getRandomCodes } from 'src/utils';
-import { plainResult } from 'src/dto/result.type';
+import { Result } from 'src/dto/result.type';
 import { FAIL, FREQUENTLY, SUCCESS } from 'src/constants/status_code';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { getUserByToken } from './dto/auth-type';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -17,7 +19,7 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  async sendOTP(tel: string): Promise<plainResult> {
+  async sendOTP(tel: string): Promise<Result> {
     const code = getRandomCodes();
     console.log(this.configService.get<string>('ALIYUN_ACCESS_KEY'));
     const config = new $OpenApi.Config({
@@ -75,7 +77,7 @@ export class AuthService {
     }
   }
 
-  async checkOTP(tel: string, code: string): Promise<plainResult> {
+  async checkOTP(tel: string, code: string): Promise<Result> {
     const user = await this.userService.findByTel(tel);
     if (!user) {
       return {
@@ -93,15 +95,32 @@ export class AuthService {
     }
     if (user.otp === code) {
       const token = this.jwtService.sign({ id: user.id });
+      this.userService.updateToken(user.id, token);
       return {
         code: SUCCESS,
         message: 'otp correct',
-        token: token,
+        data: token,
       };
     }
     return {
       code: FAIL,
       message: 'otp incorrect',
+    };
+  }
+
+  async getUserByToken(token: string): Promise<getUserByToken> {
+    const user = await this.userService.getUserByToken(token);
+    if (!user) {
+      console.log('user not found');
+      return {
+        code: FAIL,
+        message: 'user not found',
+      };
+    }
+    return {
+      code: SUCCESS,
+      message: 'get user success',
+      data: user,
     };
   }
 }

@@ -39,8 +39,8 @@ export class AppController {
 
   @Get('/findOne')
   async findOne(): Promise<User> {
-    return await this.userService.findOne(
-      'c426915d-d346-4757-9d56-1b0abe43a476',
+    return await this.userService.getUserByToken(
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdlYzA3YmI0LTZkYzktNDY2MS04NWNlLWI4ODNjMDJhYWI1ZSIsImlhdCI6MTcxOTIwOTE0OCwiZXhwIjoxNzE5Mjk1NTQ4fQ.-qBI9FYa2_KTxKVS0Rt0s6JSKpVVd-cm6xs-cvQLd4E',
     );
   }
 }

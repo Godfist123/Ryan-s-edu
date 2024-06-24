@@ -14,7 +14,7 @@ export const checkOTP = gql`
     checkOTP(tel: $tel, code: $code) {
       code
       message
-      token
+      data
     }
   }
 `;
@@ -25,6 +25,19 @@ export const getUserByTel = gql`
       name
       desc
       account
+    }
+  }
+`;
+
+export const getUserByToken = gql`
+  query GetUserByToken($token: String!) {
+    getUserByToken(token: $token) {
+      data {
+        id
+        name
+        desc
+        account
+      }
     }
   }
 `;

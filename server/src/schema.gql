@@ -9,10 +9,23 @@ type UserType {
   account: String!
 }
 
-type plainResult {
+type Result {
+  code: Int!
+  message: String
+  data: String
+}
+
+type User {
+  id: String!
+  name: String!
+  account: String!
+  desc: String!
+}
+
+type getUserByToken {
   code: Int!
   message: String!
-  token: String
+  data: User
 }
 
 type Query {
@@ -21,6 +34,7 @@ type Query {
 
   """Find one user by tel"""
   findOneByTel(tel: String!): UserType!
+  getUserByToken(token: String!): getUserByToken
 }
 
 type Mutation {
@@ -31,8 +45,8 @@ type Mutation {
 
   """Delete user"""
   delete(id: String!): Boolean!
-  sendOTP(tel: String!): plainResult!
-  checkOTP(tel: String!, code: String!): plainResult!
+  sendOTP(tel: String!): Result!
+  checkOTP(tel: String!, code: String!): Result!
 }
 
 input UserInput {

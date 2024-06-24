@@ -51,4 +51,15 @@ export class UserService {
     }
     return false;
   }
+
+  async updateToken(id: string, token: string): Promise<boolean> {
+    const res = await this.userRepository.update(id, { token });
+    if (res && res.affected > 0) {
+      return true;
+    }
+    return false;
+  }
+  async getUserByToken(token: string): Promise<User> {
+    return this.userRepository.findOne({ where: { token } });
+  }
 }
