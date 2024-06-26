@@ -5,8 +5,9 @@ import withUser, {
   WithUserDataProps,
 } from "../../utils/context/WithUserContext";
 import Page403 from "../404/Page403";
-import { useGetUserByToken } from "../../utils/context/useGetUserByToken";
+import { useGetUserByToken } from "../../hooks/useGetUserByToken";
 import Loading from "../common/Loading";
+import { useTitle } from "../../hooks/useTitle";
 
 interface HomeProps extends WithUserDataProps {
   // Define your props here
@@ -14,14 +15,19 @@ interface HomeProps extends WithUserDataProps {
 
 const Home: React.FC<HomeProps> = (props) => {
   const { data, loading, error } = useGetUserByToken(props);
+  useTitle("Home");
 
-  if (loading) {
-    return <Loading />;
-  }
   if (error) {
     return <Page403 />;
   }
-  return <div>{data.name}</div>;
+
+  // Render loading component while data is being fetched
+  if (loading) {
+    return <Loading />;
+  }
+
+  // Render data if available
+  return data ? <div>{data.name}</div> : <Loading />;
 };
 
 export default withUser(Home);

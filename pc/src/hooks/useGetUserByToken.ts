@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { getUserByToken } from "../../graphql/auth";
-import { AUTH_TOKEN } from "../constants";
+import { getUserByToken } from "../graphql/auth";
+import { AUTH_TOKEN } from "../utils/constants";
 
 export function useGetUserByToken(props: any) {
   const token = localStorage.getItem(AUTH_TOKEN);

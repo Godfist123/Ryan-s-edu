@@ -16,18 +16,24 @@ import { AUTH_TOKEN } from "../../utils/constants";
 import withUser, {
   WithUserDataProps,
 } from "../../utils/context/WithUserContext";
+import { useGetUserByToken } from "../../hooks/useGetUserByToken";
+import { useTitle } from "../../hooks/useTitle";
 interface ILogin {
   mobile: string;
   captcha: string;
   autoLogin: boolean;
 }
 
-const Login: React.FC<WithUserDataProps> = ({ setUserData }) => {
+const Login: React.FC<WithUserDataProps> = (props) => {
   const { Title } = Typography;
+  useTitle("Login");
   const navigate = useNavigate();
   const [runSendOTP] = useMutation(sendOTP);
   const [runCheckOTP] = useMutation(checkOTP);
-
+  const { data: flag } = useGetUserByToken(props);
+  if (flag) {
+    navigate("/");
+  }
   const [mobile, setMobile] = useState<string>("");
 
   // Fetch user data using useQuery
@@ -39,7 +45,7 @@ const Login: React.FC<WithUserDataProps> = ({ setUserData }) => {
   // Effect to update context after data is fetched
   useEffect(() => {
     if (data && data.findOneByTel) {
-      setUserData({
+      props.setUserData({
         name: data.findOneByTel.name,
         desc: data.findOneByTel.desc,
         account: data.findOneByTel.account,
