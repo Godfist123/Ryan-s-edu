@@ -33,11 +33,22 @@ export const getUserByToken = gql`
   query GetUserByToken($token: String!) {
     getUserByToken(token: $token) {
       data {
+        tel
         id
         name
         desc
         account
+        avatarUrl
       }
+    }
+  }
+`;
+
+export const updateUser = gql`
+  mutation UpdateUser($id: String!, $params: UserInput!) {
+    update(id: $id, params: $params) {
+      code
+      message
     }
   }
 `;

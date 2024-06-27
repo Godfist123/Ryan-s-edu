@@ -49,6 +49,9 @@ const Login: React.FC<WithUserDataProps> = (props) => {
         name: data.findOneByTel.name,
         desc: data.findOneByTel.desc,
         account: data.findOneByTel.account,
+        tel: mobile,
+        id: data.findOneByTel.id,
+        avatarUrl: data.findOneByTel.avatarUrl,
       });
       console.log("data", data.findOneByTel.name);
       navigate("/");

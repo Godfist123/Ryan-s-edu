@@ -16,10 +16,12 @@ type Result {
 }
 
 type User {
+  tel: String!
   id: String!
   name: String!
   account: String!
   desc: String!
+  avatarUrl: String
 }
 
 type getUserByToken {
@@ -41,15 +43,16 @@ type Mutation {
   create(params: UserInput!): Boolean!
 
   """Update user"""
-  update(id: String!, params: UserInput!): Boolean!
+  update(id: String!, params: UserInput!): Result!
 
   """Delete user"""
-  delete(id: String!): Boolean!
+  delete(id: String!): Result!
   sendOTP(tel: String!): Result!
   checkOTP(tel: String!, code: String!): Result!
 }
 
 input UserInput {
-  name: String!
-  desc: String!
+  name: String
+  desc: String
+  avatarUrl: String
 }

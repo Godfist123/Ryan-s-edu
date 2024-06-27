@@ -26,7 +26,6 @@ export class AuthResolver {
   @Query(() => getUserByToken, { nullable: true })
   async getUserByToken(@Args('token') token: string): Promise<getUserByToken> {
     const res = await this.authService.getUserByToken(token);
-    console.log('res', res.data.name);
     return res;
   }
 }

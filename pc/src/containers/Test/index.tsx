@@ -1,28 +1,42 @@
 import React, { useContext, useEffect } from "react";
 import { Button } from "antd";
 import { UserContext } from "../../utils/context/UserContext";
-import { useQuery } from "@apollo/client";
-import { getUserByTel } from "../../graphql/auth";
+import { useMutation, useQuery } from "@apollo/client";
+import { getUserByTel, updateUser } from "../../graphql/auth";
 import withUser, {
   WithUserDataProps,
 } from "../../utils/context/WithUserContext";
+import { useGetUserByToken } from "../../hooks/useGetUserByToken";
 
 interface TestProps extends WithUserDataProps {
   // Define your props here
 }
 
-const Test: React.FC<TestProps> = ({ userData, setUserData }) => {
-  const { data } = useQuery(getUserByTel, {
-    variables: { tel: "15541581047" },
-  });
+const Test: React.FC<TestProps> = (props) => {
+  const { data } = useGetUserByToken(props);
+  const [run] = useMutation(updateUser);
 
   return (
     <div>
-      {JSON.stringify(userData)}
       <Button
-        onClick={() =>
-          setUserData({ name: "test", desc: "test", account: "test" })
-        }
+        onClick={() => {
+          if (!data?.id) {
+            alert("User data not available.");
+            return;
+          }
+          console.log(data.id);
+          run({
+            variables: {
+              id: data.id,
+              params: {
+                avatarUrl: "123",
+              },
+            },
+          }).catch((error) => {
+            console.error("Error running mutation:", error);
+            alert("Failed to update user: " + error.message);
+          });
+        }}
       >
         Click me
       </Button>

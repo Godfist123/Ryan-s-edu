@@ -2,6 +2,8 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { UserInput } from './dto/user-input.type';
 import { UserType } from './dto/user-type';
+import { Result } from 'src/dto/result.type';
+import { FAIL, SUCCESS } from 'src/constants/status_code';
 
 @Resolver()
 export class UserResolver {
@@ -22,16 +24,25 @@ export class UserResolver {
     return await this.userService.findByTel(tel);
   }
 
-  @Mutation(() => Boolean, { description: 'Update user' })
+  @Mutation(() => Result, { description: 'Update user' })
   async update(
     @Args('id') id: string,
     @Args('params') params: UserInput,
-  ): Promise<boolean> {
-    return await this.userService.update(id, params);
+  ): Promise<Result> {
+    const flag = await this.userService.update(id, params);
+    if (flag) {
+      return { code: SUCCESS, message: 'Update user successfully' };
+    }
+    return { code: FAIL, message: 'Update user failed' };
   }
 
-  @Mutation(() => Boolean, { description: 'Delete user' })
-  async delete(@Args('id') id: string): Promise<boolean> {
-    return await this.userService.del(id);
+  @Mutation(() => Result, { description: 'Delete user' })
+  async delete(@Args('id') id: string): Promise<Result> {
+    const flag = await this.userService.del(id);
+    if (flag) {
+      return { code: SUCCESS, message: 'Delete user successfully' };
+    } else {
+      return { code: FAIL, message: 'Delete user failed' };
+    }
   }
 }

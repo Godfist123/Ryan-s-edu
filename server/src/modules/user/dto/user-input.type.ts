@@ -2,8 +2,10 @@ import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class UserInput {
-  @Field()
-  name: string;
-  @Field()
-  desc: string;
+  @Field({ nullable: true })
+  name?: string;
+  @Field({ nullable: true })
+  desc?: string;
+  @Field({ nullable: true })
+  avatarUrl?: string;
 }

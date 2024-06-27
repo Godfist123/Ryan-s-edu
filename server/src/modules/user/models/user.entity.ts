@@ -29,4 +29,7 @@ export class User {
 
   @Column({ comment: 'token', nullable: true })
   token: string;
+
+  @Column({ comment: 'token', nullable: true })
+  avatarUrl: string;
 }
