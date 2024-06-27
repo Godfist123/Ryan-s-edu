@@ -56,19 +56,20 @@ export class AwsService {
   async generateUploadUrl(
     bucket: string,
     key: string,
-    expireSeconds: number = 900,
+    expireSeconds: number = 900, // Default to 15 minutes
   ): Promise<string> {
     const params = {
       Bucket: bucket,
       Key: key,
       Expires: expireSeconds,
-      ContentType: 'application/octet-stream', // Default is 900 seconds (15 minutes)
+      ContentType: 'image/jpeg', // Ensure this matches the expected file type.
     };
 
     try {
       const url = await this.s3.getSignedUrlPromise('putObject', params);
       return url;
     } catch (err) {
+      console.error('Error generating signed URL:', err);
       throw new Error('Failed to generate presigned URL');
     }
   }

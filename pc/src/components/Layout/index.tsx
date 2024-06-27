@@ -3,7 +3,7 @@ import {
   PageContainer,
   ProLayout,
 } from "@ant-design/pro-components";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useOutlet } from "react-router-dom";
 import styles from "./index.module.scss";
 import { useGetUserByToken } from "../../hooks/useGetUserByToken";
@@ -24,6 +24,18 @@ const Layout: React.FC<LayoutProps> = (props) => {
   const outlet = useOutlet();
   const { data } = useGetUserByToken(props);
   const Navi = useNavigate();
+  const [avatarUrl, setAvatarUrl] = useState<string>();
+
+  useEffect(() => {
+    if (data?.avatarUrl) {
+      setAvatarUrl(`http://localhost:3000/aws/publicfile/${data.avatarUrl}`);
+      console.log(`http://localhost:3000/aws/publicfile/${data.avatarUrl}`);
+    } else {
+      setAvatarUrl(
+        "http://localhost:3000/aws/publicfile/edu-user-avatar%2Fdefault.jpg"
+      );
+    }
+  }, [data?.avatarUrl]);
 
   const logout = () => {
     localStorage.removeItem(AUTH_TOKEN);
@@ -34,9 +46,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
       layout="mix"
       className={styles.container}
       avatarProps={{
-        src: data?.avatarUrl
-          ? `http://localhost:3000/aws/publicfile/${data.avatarUrl}`
-          : "http://localhost:3000/aws/publicfile/edu-user-avatar%2Fdefault.jpg",
+        src: avatarUrl,
         title: data?.name,
         size: "large",
         onClick: logout,

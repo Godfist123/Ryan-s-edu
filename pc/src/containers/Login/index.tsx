@@ -79,7 +79,7 @@ const Login: React.FC<WithUserDataProps> = (props) => {
             <Title>
               <img
                 style={{ width: 40, marginTop: 10, marginLeft: 20 }}
-                src="http://localhost:3000/aws/publicfile/icon.jpg"
+                src="http://localhost:3000/aws/publicfile/edu-assets%2Ficon.jpg"
               />
             </Title>
             <Title>Ryan's Online Edu</Title>

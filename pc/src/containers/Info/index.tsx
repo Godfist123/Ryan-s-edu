@@ -6,14 +6,12 @@ import {
   ProForm,
   ProFormText,
   ProFormTextArea,
-  idIDIntl,
 } from "@ant-design/pro-components";
-import { Col, Row, message } from "antd";
+import { Col, Row, message, Form } from "antd";
 import OSSImageUpload from "../../components/OSSImageUpload";
 import { useForm } from "antd/es/form/Form";
 import { useMutation } from "@apollo/client";
 import { updateUser } from "../../graphql/auth";
-import { Form } from "antd/lib";
 
 interface InfoProps {
   // Define your props here
@@ -23,6 +21,7 @@ const Info: React.FC<InfoProps> = (props) => {
   const { data } = useGetUserByToken(props);
   const [form] = useForm();
   const [updateUserInfo] = useMutation(updateUser);
+
   useEffect(() => {
     if (data) {
       form.setFieldsValue({
@@ -37,7 +36,6 @@ const Info: React.FC<InfoProps> = (props) => {
     <PageContainer title={false}>
       <ProForm
         form={form}
-        style={{}}
         layout="horizontal"
         onFinish={async (values) => {
           const flag = await updateUserInfo({
@@ -61,27 +59,27 @@ const Info: React.FC<InfoProps> = (props) => {
           },
         }}
       >
-        <Row>
-          <Col>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
             <ProFormText
               name="tel"
-              label="tel"
+              label="Tel"
               tooltip="unchangeable"
-              disabled={true}
-            ></ProFormText>
+              disabled
+            />
             <ProFormText
               name="name"
-              label="name"
+              label="Name"
               placeholder="Enter your name here"
-            ></ProFormText>
+            />
             <ProFormTextArea
               name="desc"
-              label="description"
+              label="Description"
               placeholder="Please enter your description"
             />
           </Col>
-          <Col>
-            <Form.Item name="avatar">
+          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+            <Form.Item name="avatar" label="Avatar">
               <OSSImageUpload />
             </Form.Item>
           </Col>
