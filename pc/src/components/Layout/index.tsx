@@ -8,9 +8,10 @@ import { Link, useNavigate, useOutlet } from "react-router-dom";
 import styles from "./index.module.scss";
 import { useGetUserByToken } from "../../hooks/useGetUserByToken";
 import withUser from "../../utils/context/WithUserContext";
-import { HomeOutlined } from "@ant-design/icons";
+import { HomeOutlined, LogoutOutlined } from "@ant-design/icons";
 import { AUTH_TOKEN } from "../../utils/constants";
 import { routes } from "../../routes";
+import { Space } from "antd";
 
 interface LayoutProps {
   // Define your props here
@@ -49,8 +50,16 @@ const Layout: React.FC<LayoutProps> = (props) => {
         src: avatarUrl,
         title: data?.name,
         size: "large",
-        onClick: logout,
+        onClick: () => {
+          Navi("/info");
+        },
       }}
+      links={[
+        <Space size={20} onClick={logout}>
+          <LogoutOutlined />
+          Log Out
+        </Space>,
+      ]}
       logo={
         <img
           src="http://localhost:3000/aws/publicfile/edu-assets%2Ficon.jpg"

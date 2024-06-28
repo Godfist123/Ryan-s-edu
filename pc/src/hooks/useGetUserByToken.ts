@@ -23,6 +23,7 @@ export function useGetUserByToken(props: any) {
   // Handle Apollo results
   if (data && data.getUserByToken) {
     console.log("Using data from Apollo query:", data.getUserByToken.data);
+    props.setUserData(data.getUserByToken.data);
     return {
       data: data.getUserByToken.data,
       loading,

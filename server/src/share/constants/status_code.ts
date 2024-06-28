@@ -1,0 +1,10 @@
+export const SUCCESS = 200;
+export const FAIL = 1000;
+export const FREQUENTLY = 1001;
+export const STUDENT_NOT_EXIST = 1002;
+export const NOT_EMPTY = 1003;
+export const VALIDATE_ERROR = 1004;
+export const ACCOUNT_NOT_EXIST = 1005;
+export const LOGIN_ERROR = 1006;
+export const ACCOUNT_EXIST = 1007;
+export const REGISTER_ERROR = 1008;

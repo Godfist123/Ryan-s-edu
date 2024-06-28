@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { createResult } from 'src/dto/result.type';
+import { createResult } from 'src/share/dto/result.type';
 
 @ObjectType()
 class User {

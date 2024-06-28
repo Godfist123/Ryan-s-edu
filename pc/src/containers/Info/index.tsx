@@ -12,6 +12,7 @@ import OSSImageUpload from "../../components/OSSImageUpload";
 import { useForm } from "antd/es/form/Form";
 import { useMutation } from "@apollo/client";
 import { updateUser } from "../../graphql/auth";
+import { useNavigate } from "react-router-dom";
 
 interface InfoProps {
   // Define your props here
@@ -20,6 +21,7 @@ interface InfoProps {
 const Info: React.FC<InfoProps> = (props) => {
   const { data } = useGetUserByToken(props);
   const [form] = useForm();
+  const Navi = useNavigate();
   const [updateUserInfo] = useMutation(updateUser);
 
   useEffect(() => {
@@ -46,6 +48,7 @@ const Info: React.FC<InfoProps> = (props) => {
           });
           if (flag.data.update.code === 200) {
             message.success(flag.data.update.message);
+            Navi("/");
             return;
           } else {
             message.error(flag.data.update.message);

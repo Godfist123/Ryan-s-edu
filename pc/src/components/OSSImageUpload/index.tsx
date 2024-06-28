@@ -5,6 +5,7 @@ import axios from "axios";
 import { useMutation } from "@apollo/client";
 import { updateUser } from "../../graphql/auth";
 import { useGetUserByToken } from "../../hooks/useGetUserByToken";
+import withUser from "../../utils/context/WithUserContext";
 
 const beforeUpload = (file: File): boolean => {
   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
@@ -26,17 +27,18 @@ const ImageUpload = (props: any) => {
   const [imageUrl, setImageUrl] = useState("");
   const { data } = useGetUserByToken(props);
   const [update] = useMutation(updateUser);
+  const timestamp = Date.now();
 
   useEffect(() => {
     if (data && data.id && file) {
       getPresignedUrl(data.id);
     }
-  }, [file, data]);
+  }, [file]);
 
   const getPresignedUrl = async (userId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/aws/generate-upload-url?filename=edu-user-avatar/${userId}-avatar.jpg`
+        `http://localhost:3000/aws/generate-upload-url?filename=edu-user-avatar/${userId}-avatar.jpg-${timestamp}`
       );
       if (file) {
         uploadFileToS3(response.data.url);
@@ -57,7 +59,9 @@ const ImageUpload = (props: any) => {
       if (xhr.status === 200) {
         setImageUrl(URL.createObjectURL(file));
         if (data && data.id) {
-          updateProfileImageUrl(`edu-user-avatar%2F${data.id}-avatar.jpg`);
+          updateProfileImageUrl(
+            `edu-user-avatar%2F${data.id}-avatar.jpg-${timestamp}`
+          );
         }
         setLoading(false);
         message.success("File uploaded successfully");
@@ -80,6 +84,7 @@ const ImageUpload = (props: any) => {
           params: { avatarUrl },
         },
       });
+      props.setUserData({ ...data, avatarUrl });
     }
   };
 
@@ -125,4 +130,4 @@ const ImageUpload = (props: any) => {
   );
 };
 
-export default ImageUpload;
+export default withUser(ImageUpload);

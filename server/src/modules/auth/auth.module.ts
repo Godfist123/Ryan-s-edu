@@ -5,7 +5,7 @@ import { User } from '../user/models/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from '../user/user.service';
 import { JwtModule } from '@nestjs/jwt';
-import { JWT_KEY } from 'src/constants/Jwt_key';
+import { JWT_KEY } from 'src/share/constants/Jwt_key';
 import { JwtStrategy } from './jwt.strategy';
 import { GqlAuthGuard } from './auth.guard';
 
