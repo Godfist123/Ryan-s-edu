@@ -63,7 +63,7 @@ export class StudentResolver {
       code: SUCCESS,
       data: results,
       page: {
-        start: pageNum,
+        pageNum,
         pageSize,
         total,
       },

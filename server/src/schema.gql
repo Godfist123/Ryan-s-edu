@@ -10,7 +10,7 @@ type UserType {
 }
 
 type Page {
-  start: Int!
+  pageNum: Int!
   total: Int!
   pageSize: Int!
 }
@@ -76,15 +76,88 @@ type StudentResults {
   page: Page
 }
 
+type OrgImageType {
+  id: String
+  url: String!
+  remark: String
+}
+
+type OrganizationType {
+  id: String!
+  createdAt: DateTime!
+  createdBy: String
+  updatedAt: DateTime
+  updatedBy: String
+  deletedAt: DateTime
+  deletedBy: String
+
+  """营业执照"""
+  businessLicense: String!
+
+  """法人身份证正面"""
+  identityCardFrontImg: String!
+
+  """法人身份证反面"""
+  identityCardBackImg: String!
+
+  """标签 以，隔开"""
+  tags: String
+
+  """简介"""
+  description: String
+
+  """机构名"""
+  name: String
+
+  """logo"""
+  logo: String
+
+  """经度"""
+  longitude: String
+
+  """纬度"""
+  latitude: String
+
+  """地址"""
+  address: String
+
+  """电话"""
+  tel: String
+
+  """封面图"""
+  orgFrontImg: [OrgImageType!]
+
+  """室内图"""
+  orgRoomImg: [OrgImageType!]
+
+  """其他图"""
+  orgOtherImg: [OrgImageType!]
+}
+
+type OrganizationResult {
+  code: Int!
+  message: String!
+  data: OrganizationType
+}
+
+type OrganizationResults {
+  code: Int!
+  message: String!
+  data: [OrganizationType!]
+  page: Page
+}
+
 type Query {
   """Find one user"""
   findOne(id: String!): UserType!
 
   """Find one user by tel"""
   findOneByTel(tel: String!): UserType!
+  getUserByToken(token: String!): getUserByToken
   getStudentInfo: StudentResult!
   getStudents(page: PageInput!): StudentResults!
-  getUserByToken(token: String!): getUserByToken
+  getOrganizationInfo: OrganizationResult!
+  getOrganizations(page: PageInput!): OrganizationResults!
 }
 
 input PageInput {
@@ -100,15 +173,16 @@ type Mutation {
 
   """Delete user"""
   delete(id: String!): Result!
-  commitStudentInfo(params: StudentInput!): StudentResult!
   sendOTP(tel: String!): Result!
   checkOTP(tel: String!, code: String!): Result!
 
-  """学员登录"""
+  """Student Login"""
   studentLogin(account: String!, password: String!): Result!
 
-  """学员注册"""
+  """Student register"""
   studentRegister(account: String!, password: String!): Result!
+  commitStudentInfo(params: StudentInput!): StudentResult!
+  commitOrganization(params: OrganizationInput!, id: String): OrganizationResult!
 }
 
 input UserInput {
@@ -126,4 +200,54 @@ input StudentInput {
 
   """avatar"""
   avatar: String!
+}
+
+input OrganizationInput {
+  """名称"""
+  name: String!
+
+  """logo"""
+  logo: String!
+
+  """手机号"""
+  tel: String
+
+  """tags"""
+  tags: String
+
+  """longitude"""
+  longitude: String
+
+  """latitude"""
+  latitude: String
+
+  """latitude"""
+  address: String
+
+  """营业执照"""
+  businessLicense: String!
+
+  """description"""
+  description: String!
+
+  """法人身份证正面"""
+  identityCardFrontImg: String!
+
+  """法人身份证反面"""
+  identityCardBackImg: String!
+
+  """机构门面照片"""
+  orgFrontImg: [OrgImageInput!]
+
+  """机构环境照片"""
+  orgRoomImg: [OrgImageInput!]
+
+  """机构环境照片"""
+  orgOtherImg: [OrgImageInput!]
+}
+
+input OrgImageInput {
+  id: String
+  url: String!
+  remark: String
 }

@@ -9,6 +9,7 @@ import { join } from 'path';
 import { AwsModule } from './modules/aws/aws.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { StudentModule } from './modules/student/student.module';
+import { OrganizationModule } from './modules/organization/organization.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { StudentModule } from './modules/student/student.module';
     AwsModule,
     AuthModule,
     StudentModule,
+    OrganizationModule,
   ],
   controllers: [AppController],
   providers: [],

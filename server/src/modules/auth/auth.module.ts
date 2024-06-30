@@ -8,10 +8,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { JWT_KEY } from 'src/share/constants/Jwt_key';
 import { JwtStrategy } from './jwt.strategy';
 import { GqlAuthGuard } from './auth.guard';
+import { StudentService } from '../student/student.service';
+import { Student } from '../student/models/student.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Student]),
     JwtModule.register({
       secret: JWT_KEY,
       signOptions: { expiresIn: '1d' },
@@ -23,6 +25,7 @@ import { GqlAuthGuard } from './auth.guard';
     UserService,
     JwtStrategy,
     GqlAuthGuard,
+    StudentService,
   ],
 })
 export class AuthModule {}

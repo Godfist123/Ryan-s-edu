@@ -11,7 +11,11 @@ import { OrganizationType } from './dto/organization.type';
 import { OrganizationService } from './organization.service';
 import { CurUserId } from 'src/share/decorators/current-user.decorator';
 import { PageInput } from 'src/share/dto/pageInput';
-import { NOT_EXIST, SUCCESS } from 'src/share/constants/status_code';
+import {
+  CREATE_ORG_FAILED,
+  NOT_EXIST,
+  SUCCESS,
+} from 'src/share/constants/status_code';
 
 @Resolver(() => OrganizationType)
 @UseGuards(GqlAuthGuard)
@@ -37,7 +41,7 @@ export class OrganizationResolver {
   }
 
   @Mutation(() => OrganizationResult)
-  async commitOrganizationInfo(
+  async commitOrganization(
     @Args('params') params: OrganizationInput,
     @CurUserId() userId: string,
     @Args('id', { nullable: true }) id?: string,
@@ -61,9 +65,19 @@ export class OrganizationResolver {
         };
       }
     }
+    const CreateOrg = await this.organizationService.create({
+      ...params,
+      createdBy: userId,
+    });
+    if (CreateOrg) {
+      return {
+        code: SUCCESS,
+        message: 'Create success',
+      };
+    }
     return {
-      code: NOT_EXIST,
-      message: 'Org does not exist',
+      code: CREATE_ORG_FAILED,
+      message: 'Create failed',
     };
   }
 
@@ -80,7 +94,7 @@ export class OrganizationResolver {
       code: SUCCESS,
       data: results,
       page: {
-        start: pageNum,
+        pageNum,
         pageSize,
         total,
       },
