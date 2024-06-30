@@ -20,13 +20,13 @@ export const accountAndPwdValidate = (
   if (!account || !password) {
     return {
       code: NOT_EMPTY,
-      message: '账号或者密码不能为空',
+      message: 'Account or password cannot be empty',
     };
   }
   if (!/^(?![0-9]+$)(?![a-z]+$)[a-z0-9]{6,10}$/.test(account)) {
     return {
       code: VALIDATE_ERROR,
-      message: '账号校验失败，请重新输入账号',
+      message: 'Account format error',
     };
   }
   return {

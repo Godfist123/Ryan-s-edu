@@ -8,3 +8,4 @@ export const ACCOUNT_NOT_EXIST = 1005;
 export const LOGIN_ERROR = 1006;
 export const ACCOUNT_EXIST = 1007;
 export const REGISTER_ERROR = 1008;
+export const NOT_EXIST = 1009;
