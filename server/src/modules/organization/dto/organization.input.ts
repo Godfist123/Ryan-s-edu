@@ -4,7 +4,7 @@ import { Field, InputType } from '@nestjs/graphql';
 @InputType()
 export class OrganizationInput {
   @Field({
-    description: '名称',
+    description: 'name',
   })
   name: string;
 
@@ -14,7 +14,7 @@ export class OrganizationInput {
   logo: string;
 
   @Field({
-    description: '手机号',
+    description: 'tel',
     nullable: true,
   })
   tel: string;
@@ -44,7 +44,7 @@ export class OrganizationInput {
   address: string;
 
   @Field({
-    description: '营业执照',
+    description: 'businessLicense',
   })
   businessLicense: string;
 
@@ -54,30 +54,30 @@ export class OrganizationInput {
   description: string;
 
   @Field({
-    description: '法人身份证正面',
+    description: 'identityCardFrontImg',
   })
   identityCardFrontImg: string;
 
   @Field({
-    description: '法人身份证反面',
+    description: 'identityCardBackImg',
   })
   identityCardBackImg: string;
 
   @Field(() => [OrgImageInput], {
     nullable: true,
-    description: '机构门面照片',
+    description: 'orgFrontImg',
   })
   orgFrontImg?: OrgImageInput[];
 
   @Field(() => [OrgImageInput], {
     nullable: true,
-    description: '机构环境照片',
+    description: 'orgRoomImg',
   })
   orgRoomImg?: OrgImageInput[];
 
   @Field(() => [OrgImageInput], {
     nullable: true,
-    description: '机构环境照片',
+    description: 'orgOtherImg',
   })
   orgOtherImg?: OrgImageInput[];
 }

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "es5",               // Compiles TypeScript to ECMAScript 5 for broad browser compatibility
-    "lib": ["dom", "es6", "dom.iterable", "scripthost"],
+    "lib": ["dom", "es6", "dom.iterable", "scripthost","ES2017"],
     "jsx": "react-jsx",            // Use the modern JSX transform with React 17+
     "esModuleInterop": true,       // Enables compatibility with Babel-compiled modules
     "moduleResolution": "node",    // Mimics Node's module resolution

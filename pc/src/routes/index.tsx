@@ -1,8 +1,13 @@
-import { HomeOutlined } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  HomeOutlined,
+  InfoOutlined,
+  ShopOutlined,
+} from "@ant-design/icons";
 import Home from "../containers/Home";
 import TestWithUser from "../containers/Test";
-import Page404 from "../containers/404/Page404";
 import Info from "../containers/Info";
+import Org from "../containers/Org";
 
 interface IRoute {
   path: string;
@@ -17,6 +22,7 @@ export const ROUTE_KEY = {
   TEST: "test",
   PAGE404: "404",
   INFO: "info",
+  ORG: "org",
 };
 
 export const ROUTE_CONFIG: Record<string, IRoute> = {
@@ -30,14 +36,20 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
     path: "/test",
     element: () => <TestWithUser />,
     name: "Test",
-    icon: <HomeOutlined />,
+    icon: <CheckOutlined />,
   },
 
   [ROUTE_KEY.INFO]: {
     path: "/info",
     element: () => <Info />,
     name: "Info",
-    icon: <HomeOutlined />,
+    icon: <InfoOutlined />,
+  },
+  [ROUTE_KEY.ORG]: {
+    path: "/org",
+    element: () => <Org />,
+    name: "Org",
+    icon: <ShopOutlined />,
   },
 };
 

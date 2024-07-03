@@ -14,17 +14,22 @@ import { PageInput } from 'src/share/dto/pageInput';
 import {
   CREATE_ORG_FAILED,
   NOT_EXIST,
+  PRE_DELETE_FAILED,
   SUCCESS,
 } from 'src/share/constants/status_code';
+import { OrgImageService } from '../orgImage/orgImage.service';
 
 @Resolver(() => OrganizationType)
 @UseGuards(GqlAuthGuard)
 export class OrganizationResolver {
-  constructor(private readonly organizationService: OrganizationService) {}
+  constructor(
+    private readonly organizationService: OrganizationService,
+    private readonly orgImageService: OrgImageService,
+  ) {}
 
   @Query(() => OrganizationResult)
   async getOrganizationInfo(
-    @CurUserId() id: string,
+    @Args('id') id: string,
   ): Promise<OrganizationResult> {
     const result = await this.organizationService.findById(id);
     if (result) {
@@ -49,6 +54,13 @@ export class OrganizationResolver {
     if (id) {
       const Organization = await this.organizationService.findById(id);
       if (Organization) {
+        const delRes = await this.orgImageService.deleteByOrg(id);
+        if (!delRes) {
+          return {
+            code: PRE_DELETE_FAILED,
+            message: 'Predelete failed',
+          };
+        }
         const res = await this.organizationService.updateById(id, {
           ...params,
           updatedBy: userId,

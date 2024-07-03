@@ -91,46 +91,46 @@ type OrganizationType {
   deletedAt: DateTime
   deletedBy: String
 
-  """营业执照"""
+  """businessLicense"""
   businessLicense: String!
 
-  """法人身份证正面"""
+  """identityCardFrontImg"""
   identityCardFrontImg: String!
 
-  """法人身份证反面"""
+  """identityCardBackImg"""
   identityCardBackImg: String!
 
-  """标签 以，隔开"""
+  """tags"""
   tags: String
 
-  """简介"""
+  """description"""
   description: String
 
-  """机构名"""
+  """name"""
   name: String
 
   """logo"""
   logo: String
 
-  """经度"""
+  """longitude"""
   longitude: String
 
-  """纬度"""
+  """latitude"""
   latitude: String
 
-  """地址"""
+  """address"""
   address: String
 
-  """电话"""
+  """tel"""
   tel: String
 
-  """封面图"""
+  """orgFrontImg"""
   orgFrontImg: [OrgImageType!]
 
-  """室内图"""
+  """orgRoomImg"""
   orgRoomImg: [OrgImageType!]
 
-  """其他图"""
+  """orgOtherImg"""
   orgOtherImg: [OrgImageType!]
 }
 
@@ -156,7 +156,7 @@ type Query {
   getUserByToken(token: String!): getUserByToken
   getStudentInfo: StudentResult!
   getStudents(page: PageInput!): StudentResults!
-  getOrganizationInfo: OrganizationResult!
+  getOrganizationInfo(id: String!): OrganizationResult!
   getOrganizations(page: PageInput!): OrganizationResults!
 }
 
@@ -203,13 +203,13 @@ input StudentInput {
 }
 
 input OrganizationInput {
-  """名称"""
+  """name"""
   name: String!
 
   """logo"""
   logo: String!
 
-  """手机号"""
+  """tel"""
   tel: String
 
   """tags"""
@@ -224,25 +224,25 @@ input OrganizationInput {
   """latitude"""
   address: String
 
-  """营业执照"""
+  """businessLicense"""
   businessLicense: String!
 
   """description"""
   description: String!
 
-  """法人身份证正面"""
+  """identityCardFrontImg"""
   identityCardFrontImg: String!
 
-  """法人身份证反面"""
+  """identityCardBackImg"""
   identityCardBackImg: String!
 
-  """机构门面照片"""
+  """orgFrontImg"""
   orgFrontImg: [OrgImageInput!]
 
-  """机构环境照片"""
+  """orgRoomImg"""
   orgRoomImg: [OrgImageInput!]
 
-  """机构环境照片"""
+  """orgOtherImg"""
   orgOtherImg: [OrgImageInput!]
 }
 

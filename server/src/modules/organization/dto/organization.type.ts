@@ -8,34 +8,34 @@ import { Field, ObjectType } from '@nestjs/graphql';
 @ObjectType()
 export class OrganizationType extends CommonType {
   @Field({
-    description: '营业执照',
+    description: 'businessLicense',
   })
   businessLicense: string;
 
   @Field({
-    description: '法人身份证正面',
+    description: 'identityCardFrontImg',
   })
   identityCardFrontImg: string;
 
   @Field({
-    description: '法人身份证反面',
+    description: 'identityCardBackImg',
   })
   identityCardBackImg: string;
 
   @Field({
-    description: '标签 以，隔开',
+    description: 'tags',
     nullable: true,
   })
   tags: string;
 
   @Field({
-    description: '简介',
+    description: 'description',
     nullable: true,
   })
   description: string;
 
   @Field({
-    description: '机构名',
+    description: 'name',
     nullable: true,
   })
   name: string;
@@ -47,35 +47,35 @@ export class OrganizationType extends CommonType {
   logo: string;
 
   @Field({
-    description: '经度',
+    description: 'longitude',
     nullable: true,
   })
   longitude: string;
 
   @Field({
-    description: '纬度',
+    description: 'latitude',
     nullable: true,
   })
   latitude: string;
 
   @Field({
-    description: '地址',
+    description: 'address',
     nullable: true,
   })
   address?: string;
 
   @Field({
-    description: '电话',
+    description: 'tel',
     nullable: true,
   })
   tel: string;
 
-  @Field(() => [OrgImageType], { nullable: true, description: '封面图' })
+  @Field(() => [OrgImageType], { nullable: true, description: 'orgFrontImg' })
   orgFrontImg?: OrgImageType[];
 
-  @Field(() => [OrgImageType], { nullable: true, description: '室内图' })
+  @Field(() => [OrgImageType], { nullable: true, description: 'orgRoomImg' })
   orgRoomImg?: OrgImageType[];
 
-  @Field(() => [OrgImageType], { nullable: true, description: '其他图' })
+  @Field(() => [OrgImageType], { nullable: true, description: 'orgOtherImg' })
   orgOtherImg?: OrgImageType[];
 }

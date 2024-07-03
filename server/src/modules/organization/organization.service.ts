@@ -24,6 +24,7 @@ export class OrganizationService {
       where: {
         id,
       },
+      relations: ['orgFrontImg', 'orgRoomImg', 'orgOtherImg'],
     });
   }
 
@@ -56,6 +57,7 @@ export class OrganizationService {
       order: {
         createdAt: 'DESC',
       },
+      relations: ['orgFrontImg', 'orgRoomImg', 'orgOtherImg'],
     });
   }
 

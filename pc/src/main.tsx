@@ -7,25 +7,29 @@ import { UserProvider } from "./utils/context/UserContext";
 import LoginWithUser from "./containers/Login/index";
 import Layout from "./components/Layout/index";
 import { routes } from "./routes";
+import { ConfigProvider } from "antd";
+import enUS from "antd/lib/locale/en_US";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ApolloProvider client={client}>
     <UserProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<LoginWithUser />} />
-          <Route path="/" element={<Layout />}>
-            {routes.map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={<route.element />}
-              />
-            ))}
-          </Route>
-          <Route path="*" element={<Page404 />} />
-        </Routes>
-      </BrowserRouter>
+      <ConfigProvider locale={enUS}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<LoginWithUser />} />
+            <Route path="/" element={<Layout />}>
+              {routes.map((route) => (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  element={<route.element />}
+                />
+              ))}
+            </Route>
+            <Route path="*" element={<Page404 />} />
+          </Routes>
+        </BrowserRouter>
+      </ConfigProvider>
     </UserProvider>
   </ApolloProvider>
 );

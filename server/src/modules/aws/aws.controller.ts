@@ -46,6 +46,7 @@ export class AwsController {
         filename,
         expireSeconds,
       );
+      console.log('Generated upload URL:', url);
       return res.json({ url });
     } catch (error) {
       console.error('Error generating upload URL:', error);

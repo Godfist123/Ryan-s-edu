@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
-import withUser from "../../utils/context/WithUserContext";
+import withUser, {
+  WithUserDataProps,
+} from "../../utils/context/WithUserContext";
 import { useGetUserByToken } from "../../hooks/useGetUserByToken";
 import {
   PageContainer,
@@ -7,14 +9,14 @@ import {
   ProFormText,
   ProFormTextArea,
 } from "@ant-design/pro-components";
-import { Col, Row, message, Form } from "antd";
+import { Col, Row, message, Form, Button } from "antd";
 import OSSImageUpload from "../../components/OSSImageUpload";
 import { useForm } from "antd/es/form/Form";
 import { useMutation } from "@apollo/client";
 import { updateUser } from "../../graphql/auth";
 import { useNavigate } from "react-router-dom";
 
-interface InfoProps {
+interface InfoProps extends WithUserDataProps {
   // Define your props here
 }
 
@@ -47,6 +49,11 @@ const Info: React.FC<InfoProps> = (props) => {
             },
           });
           if (flag.data.update.code === 200) {
+            props.setUserData({
+              ...data,
+              name: values.name,
+              desc: values.desc,
+            });
             message.success(flag.data.update.message);
             Navi("/");
             return;
@@ -59,6 +66,19 @@ const Info: React.FC<InfoProps> = (props) => {
             style: {
               display: "none",
             },
+          },
+          submitButtonProps: {},
+          render: (props, doms) => {
+            console.log(props);
+            return [
+              <Button
+                type="primary"
+                key="submit"
+                onClick={() => props.form?.submit?.()}
+              >
+                Submit
+              </Button>,
+            ];
           },
         }}
       >

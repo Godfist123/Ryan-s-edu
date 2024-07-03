@@ -3,45 +3,42 @@ import { IsNotEmpty } from 'class-validator';
 import { CommonEntity } from 'src/share/entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 
-/**
- * 组件
- */
 @Entity('organization')
 export class Organization extends CommonEntity {
   @Column({
-    comment: '营业执照',
+    comment: 'businessLicense',
   })
   @IsNotEmpty()
   businessLicense: string;
 
   @Column({
-    comment: '法人身份证正面',
+    comment: 'identityCardFrontImg',
   })
   @IsNotEmpty()
   identityCardFrontImg: string;
 
   @Column({
-    comment: '法人身份证反面',
+    comment: 'identityCardBackImg',
   })
   @IsNotEmpty()
   identityCardBackImg: string;
 
   @Column({
     type: 'text',
-    comment: '标签 以，隔开',
+    comment: 'tags',
     nullable: true,
   })
   tags: string;
 
   @Column({
     type: 'text',
-    comment: '简介',
+    comment: 'description',
     nullable: true,
   })
   description: string;
 
   @Column({
-    comment: '机构名',
+    comment: 'name',
     nullable: true,
     default: '',
   })
@@ -54,25 +51,25 @@ export class Organization extends CommonEntity {
   logo: string;
 
   @Column({
-    comment: '地址',
+    comment: 'address',
     nullable: true,
   })
   address: string;
 
   @Column({
-    comment: '经度',
+    comment: 'longitude',
     nullable: true,
   })
   longitude: string;
 
   @Column({
-    comment: '纬度',
+    comment: 'latitude',
     nullable: true,
   })
   latitude: string;
 
   @Column({
-    comment: '电话',
+    comment: 'tel',
     nullable: true,
   })
   tel: string;

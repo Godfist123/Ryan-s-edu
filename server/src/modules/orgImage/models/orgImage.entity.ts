@@ -9,7 +9,7 @@ export class OrgImage {
 
   @Column({
     type: 'text',
-    comment: '地址',
+    comment: 'url',
   })
   @IsNotEmpty()
   url: string;

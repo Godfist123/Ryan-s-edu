@@ -10,3 +10,4 @@ export const ACCOUNT_EXIST = 1007;
 export const REGISTER_ERROR = 1008;
 export const NOT_EXIST = 1009;
 export const CREATE_ORG_FAILED = 1010;
+export const PRE_DELETE_FAILED = 1011;
