@@ -204,14 +204,14 @@ const EditOrg = ({ id, onClose }: IProp) => {
 
   return (
     <Drawer
-      title="编辑门店信息"
+      title="Edit Store Info"
       width="70vw"
       onClose={onClose}
       open
       footerStyle={{ textAlign: "right" }}
       footer={
         <Button type="primary" onClick={onFinishHandler}>
-          保存
+          Save
         </Button>
       }
     >
@@ -233,53 +233,53 @@ const EditOrg = ({ id, onClose }: IProp) => {
           <Col span={14}>
             <Form.Item
               style={{ width: "100%" }}
-              label="名称"
+              label="name"
               name="name"
               rules={[{ required: true }]}
             >
-              <Input placeholder="请输入门店名称" />
+              <Input placeholder="Enter Store Name" />
             </Form.Item>
           </Col>
         </Row>
         <Row className={style.row} gutter={20}>
           <Col span={11}>
-            <Form.Item label="标签" name="tags" rules={[{ required: true }]}>
+            <Form.Item label="tags" name="tags" rules={[{ required: true }]}>
               <Select
                 mode="tags"
                 style={{ width: "100%" }}
-                placeholder="请输入标签"
+                placeholder="Please enter tags"
               />
             </Form.Item>
           </Col>
           <Col span={5}>
-            <Form.Item label="手机号" name="tel" rules={[{ required: true }]}>
-              <Input placeholder="请输入手机号" />
+            <Form.Item label="tel" name="tel" rules={[{ required: true }]}>
+              <Input placeholder="Please Enter Tel Number" />
             </Form.Item>
           </Col>
           <Col span={4}>
             <Form.Item
-              label="经度"
+              label="longitude"
               name="longitude"
               rules={[{ required: true }]}
             >
-              <Input placeholder="请输入经度" />
+              <Input placeholder="Please enter longitude" />
             </Form.Item>
           </Col>
           <Col span={4}>
             <Form.Item
-              label="纬度"
+              label="latitude"
               name="latitude"
               rules={[{ required: true }]}
             >
-              <Input placeholder="请输入纬度" />
+              <Input placeholder="Please enter latitude" />
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item label="地址" name="address" rules={[{ required: true }]}>
-          <Input placeholder="请输入地址" />
+        <Form.Item label="address" name="address" rules={[{ required: true }]}>
+          <Input placeholder="Please enter address" />
         </Form.Item>
         <Form.Item
-          label="门店简介"
+          label="description"
           name="description"
           rules={[{ required: true }]}
         >
@@ -295,7 +295,7 @@ const EditOrg = ({ id, onClose }: IProp) => {
           <Col span={8}>
             <Form.Item
               style={{ width: "100%" }}
-              label="营业执照"
+              label="businessLicense"
               name="businessLicense"
               rules={[{ required: true }]}
             >
@@ -310,7 +310,7 @@ const EditOrg = ({ id, onClose }: IProp) => {
           <Col span={8}>
             <Form.Item
               style={{ width: "100%" }}
-              label="身份证正面"
+              label="identityCardFrontImg"
               name="identityCardFrontImg"
               rules={[{ required: true }]}
             >
@@ -325,7 +325,7 @@ const EditOrg = ({ id, onClose }: IProp) => {
           <Col span={8}>
             <Form.Item
               style={{ width: "100%" }}
-              label="身份证背面"
+              label="identityCardBackImg"
               name="identityCardBackImg"
               rules={[{ required: true }]}
             >
@@ -339,21 +339,21 @@ const EditOrg = ({ id, onClose }: IProp) => {
           </Col>
         </Row>
 
-        <Divider>门店顶部图：图片长宽要求比例为 2:1，最多上传 5 张 </Divider>
+        <Divider>Pictures of Store's front </Divider>
         <Form.Item name="orgFrontImg">
           <EditOrgOSSImageUpload
             fileList={uploadedImages.orgFrontImg}
             onUpdateFileList={(urls) => handleImageUpload("orgFrontImg", urls)}
           />
         </Form.Item>
-        <Divider>门店室内图：图片长宽要求比例为 2:1，最多上传 5 张 </Divider>
+        <Divider>Pictures of Store's room</Divider>
         <Form.Item name="orgRoomImg">
           <EditOrgOSSImageUpload
             fileList={uploadedImages.orgRoomImg}
             onUpdateFileList={(urls) => handleImageUpload("orgRoomImg", urls)}
           />
         </Form.Item>
-        <Divider>门店其他图：图片长宽要求比例为 2:1，最多上传 5 张 </Divider>
+        <Divider>Other Pics</Divider>
         <Form.Item name="orgOtherImg">
           <EditOrgOSSImageUpload
             fileList={uploadedImages.orgOtherImg}
