@@ -147,6 +147,56 @@ type OrganizationResults {
   page: Page
 }
 
+type CourseType {
+  id: String!
+  createdAt: DateTime!
+  createdBy: String
+  updatedAt: DateTime
+  updatedBy: String
+  deletedAt: DateTime
+  deletedBy: String
+
+  """course name"""
+  name: String!
+
+  """course description"""
+  desc: String
+
+  """age group"""
+  group: String
+
+  """prerequisites"""
+  prerequisites: String!
+
+  """maximum number of students"""
+  maximum: Float!
+
+  """course duration"""
+  duration: Float!
+
+  """appointment"""
+  appointment: String
+
+  """refund"""
+  refund: String
+
+  """other"""
+  other: String
+}
+
+type CourseResult {
+  code: Int!
+  message: String!
+  data: CourseType
+}
+
+type CourseResults {
+  code: Int!
+  message: String!
+  data: [CourseType!]
+  page: Page
+}
+
 type Query {
   """Find one user"""
   findOne(id: String!): UserType!
@@ -157,7 +207,8 @@ type Query {
   getStudentInfo: StudentResult!
   getStudents(page: PageInput!): StudentResults!
   getOrganizationInfo(id: String!): OrganizationResult!
-  getOrganizations(page: PageInput!, name: String): OrganizationResults!
+  getOrganizations(page: PageInput!, name: String): CourseResults!
+  getCourseInfo(id: String!): CourseResult!
 }
 
 input PageInput {
@@ -183,6 +234,9 @@ type Mutation {
   studentRegister(account: String!, password: String!): Result!
   commitStudentInfo(params: StudentInput!): StudentResult!
   commitOrganization(params: OrganizationInput!, id: String): OrganizationResult!
+  deleteOrganization(id: String!): Result!
+  commitCourseInfo(params: CourseInput!, id: String): CourseResult!
+  deleteCourse(id: String!): Result!
 }
 
 input UserInput {
@@ -250,4 +304,33 @@ input OrgImageInput {
   id: String
   url: String!
   remark: String
+}
+
+input CourseInput {
+  """course name"""
+  name: String!
+
+  """course description"""
+  desc: String
+
+  """age group"""
+  group: String
+
+  """prerequisites"""
+  prerequisites: String!
+
+  """maximum number of students"""
+  maximum: Float!
+
+  """course duration"""
+  duration: Float!
+
+  """appointment"""
+  appointment: String
+
+  """refund"""
+  refund: String
+
+  """other"""
+  other: String
 }

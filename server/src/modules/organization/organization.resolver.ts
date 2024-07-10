@@ -14,6 +14,8 @@ import { PageInput } from 'src/share/dto/pageInput';
 import {
   CREATE_ORG_FAILED,
   NOT_EXIST,
+  ORG_DEL_FAIL,
+  ORG_NOT_EXIST,
   PRE_DELETE_FAILED,
   SUCCESS,
 } from 'src/share/constants/status_code';
@@ -121,6 +123,31 @@ export class OrganizationResolver {
         total,
       },
       message: 'Get success',
+    };
+  }
+
+  @Mutation(() => Result)
+  async deleteOrganization(
+    @Args('id') id: string,
+    @CurUserId() userId: string,
+  ): Promise<Result> {
+    const result = await this.organizationService.findById(id);
+    if (result) {
+      const delRes = await this.organizationService.deleteById(id, userId);
+      if (delRes) {
+        return {
+          code: SUCCESS,
+          message: ' delete success',
+        };
+      }
+      return {
+        code: ORG_DEL_FAIL,
+        message: ' delete failed',
+      };
+    }
+    return {
+      code: ORG_NOT_EXIST,
+      message: 'Org does not exist',
     };
   }
 }

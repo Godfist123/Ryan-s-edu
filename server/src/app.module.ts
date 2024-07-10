@@ -10,6 +10,7 @@ import { AwsModule } from './modules/aws/aws.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { StudentModule } from './modules/student/student.module';
 import { OrganizationModule } from './modules/organization/organization.module';
+import { CourseModule } from './modules/course/course.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { OrganizationModule } from './modules/organization/organization.module';
     AuthModule,
     StudentModule,
     OrganizationModule,
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [],
