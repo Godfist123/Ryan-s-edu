@@ -85,14 +85,13 @@ export class CourseResolver {
   }
 
   @Query(() => CourseResults)
-  async getOrganizations(
+  async getCourses(
     @Args('page') page: PageInput,
     @CurUserId() userId: string,
     @Args('name', { nullable: true }) name: string,
   ): Promise<CourseResults> {
     const { pageNum, pageSize } = page;
     const where: FindOptionsWhere<Course> = { createdBy: userId };
-    console.log('name', name);
     if (name) {
       where.name = Like(`%${name}%`);
     }

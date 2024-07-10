@@ -1,4 +1,5 @@
 import {
+  BookOutlined,
   CheckOutlined,
   HomeOutlined,
   InfoOutlined,
@@ -9,6 +10,7 @@ import TestWithUser from "../containers/Test";
 import Info from "../containers/Info";
 import Org from "../containers/Org";
 import Org404 from "../containers/404/Org404";
+import Course from "../containers/Course";
 
 interface IRoute {
   path: string;
@@ -25,6 +27,7 @@ export const ROUTE_KEY = {
   INFO: "info",
   ORG: "org",
   NOORG: "noorg",
+  COURSE: "course",
 };
 
 export const ROUTE_CONFIG: Record<string, IRoute> = {
@@ -59,6 +62,12 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
     name: "NoOrg",
     hideInMenu: true,
     icon: <ShopOutlined />,
+  },
+  [ROUTE_KEY.COURSE]: {
+    path: "/course",
+    element: () => <Course />,
+    name: "course",
+    icon: <BookOutlined />,
   },
 };
 
