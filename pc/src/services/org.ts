@@ -1,5 +1,10 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { COMMIT_ORG, getOrgDetail, getOrgList } from "../graphql/org";
+import {
+  COMMIT_ORG,
+  getOrgDetail,
+  getOrgList,
+  getSimpleOrgList,
+} from "../graphql/org";
 import { DEFAULT_PAGE_SIZE } from "../utils/constants";
 import { message } from "antd";
 
@@ -44,15 +49,22 @@ export type TOrgQuery = {
 
 export type TBaseOrganization = Partial<IOrganization>;
 
-export const useOrganizations = (pageNum = 1, pageSize = DEFAULT_PAGE_SIZE) => {
-  const { data, loading, refetch } = useQuery<TOrgsQuery>(getOrgList, {
-    variables: {
-      page: {
-        pageNum,
-        pageSize,
+export const useOrganizations = (
+  pageNum = 1,
+  pageSize = DEFAULT_PAGE_SIZE,
+  isSimple = false
+) => {
+  const { data, loading, refetch } = useQuery<TOrgsQuery>(
+    isSimple ? getSimpleOrgList : getOrgList,
+    {
+      variables: {
+        page: {
+          pageNum,
+          pageSize,
+        },
       },
-    },
-  });
+    }
+  );
   return {
     loading,
     refetch,

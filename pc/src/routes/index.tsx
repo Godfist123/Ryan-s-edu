@@ -8,6 +8,7 @@ import Home from "../containers/Home";
 import TestWithUser from "../containers/Test";
 import Info from "../containers/Info";
 import Org from "../containers/Org";
+import Org404 from "../containers/404/Org404";
 
 interface IRoute {
   path: string;
@@ -23,6 +24,7 @@ export const ROUTE_KEY = {
   PAGE404: "404",
   INFO: "info",
   ORG: "org",
+  NOORG: "noorg",
 };
 
 export const ROUTE_CONFIG: Record<string, IRoute> = {
@@ -49,6 +51,13 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
     path: "/org",
     element: () => <Org />,
     name: "Org",
+    icon: <ShopOutlined />,
+  },
+  [ROUTE_KEY.NOORG]: {
+    path: "/noorg",
+    element: () => <Org404 />,
+    name: "NoOrg",
+    hideInMenu: true,
     icon: <ShopOutlined />,
   },
 };

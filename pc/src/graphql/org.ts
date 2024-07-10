@@ -20,6 +20,18 @@ export const getOrgList = gql`
     }
   }
 `;
+export const getSimpleOrgList = gql`
+  query getOrganizations($page: PageInput!, $name: String) {
+    getOrganizations(page: $page, name: $name) {
+      code
+      message
+      data {
+        id
+        name
+      }
+    }
+  }
+`;
 
 export const getOrgDetail = gql`
   query getOrganizationInfo($id: String!) {
@@ -29,6 +41,16 @@ export const getOrgDetail = gql`
       data {
         id
         name
+        logo
+        tags
+        description
+        address
+        tel
+        longitude
+        latitude
+        identityCardBackImg
+        identityCardFrontImg
+        businessLicense
         orgRoomImg {
           url
           id

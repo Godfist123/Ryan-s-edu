@@ -1,17 +1,14 @@
-import {
-  MenuDataItem,
-  PageContainer,
-  ProLayout,
-} from "@ant-design/pro-components";
+import { MenuDataItem, ProLayout } from "@ant-design/pro-components";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useOutlet } from "react-router-dom";
 import styles from "./index.module.scss";
 import { useGetUserByToken } from "../../hooks/useGetUserByToken";
 import withUser from "../../utils/context/WithUserContext";
-import { HomeOutlined, LogoutOutlined } from "@ant-design/icons";
+import { LogoutOutlined, ShopOutlined } from "@ant-design/icons";
 import { AUTH_TOKEN } from "../../utils/constants";
 import { routes } from "../../routes";
-import { Space } from "antd";
+import { Space, Tooltip } from "antd";
+import OrgSelector from "../OrgSelect";
 
 interface LayoutProps {
   // Define your props here
@@ -74,6 +71,16 @@ const Layout: React.FC<LayoutProps> = (props) => {
       onMenuHeaderClick={() => {
         Navi("/home");
       }}
+      actionsRender={() => [
+        <OrgSelector />,
+        <Tooltip title="Org Management">
+          <ShopOutlined
+            onClick={() => {
+              Navi("/org");
+            }}
+          />
+        </Tooltip>,
+      ]}
       menuItemRender={menuItemRender}
     >
       {outlet}

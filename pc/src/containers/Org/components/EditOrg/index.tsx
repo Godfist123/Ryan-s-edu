@@ -38,6 +38,7 @@ interface IUploadImages {
 const EditOrg = ({ id, onClose }: IProp) => {
   const [form] = Form.useForm();
   const { data, loading: queryLoading } = useOrganization(id);
+  console.log(data);
   const [uploadedImages, setUploadedImages] = useState<IUploadImages>({
     logo: [],
     businessLicense: [],
@@ -95,7 +96,7 @@ const EditOrg = ({ id, onClose }: IProp) => {
         xhr.onload = () => {
           if (xhr.status === 200) {
             message.success(`${file.name} uploaded successfully!`);
-            file.url = `edu-org-${key}%2F${id}-${key}.jpg-${timestamp}`;
+            file.url = `http://localhost:3000/aws/publicfile/edu-org-${key}%2F${id}-${key}.jpg-${timestamp}`;
             resolve(true);
           } else {
             message.error(`Upload failed for ${file.name}`);
@@ -233,7 +234,8 @@ const EditOrg = ({ id, onClose }: IProp) => {
           <Col span={14}>
             <Form.Item
               style={{ width: "100%" }}
-              label="name"
+              label="name
+              "
               name="name"
               rules={[{ required: true }]}
             >

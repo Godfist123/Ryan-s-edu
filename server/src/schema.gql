@@ -157,7 +157,7 @@ type Query {
   getStudentInfo: StudentResult!
   getStudents(page: PageInput!): StudentResults!
   getOrganizationInfo(id: String!): OrganizationResult!
-  getOrganizations(page: PageInput!): OrganizationResults!
+  getOrganizations(page: PageInput!, name: String): OrganizationResults!
 }
 
 input PageInput {

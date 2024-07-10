@@ -7,6 +7,7 @@ export interface IUser {
   tel: string;
   id: string;
   avatarUrl: string;
+  [key: string]: any;
 }
 const defaultUserState: IUser = {
   name: "",
@@ -15,6 +16,7 @@ const defaultUserState: IUser = {
   tel: "",
   id: "",
   avatarUrl: "",
+  currentOrg: "",
 };
 
 export const { Context: UserContext, Provider: UserProvider } =

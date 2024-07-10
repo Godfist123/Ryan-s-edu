@@ -100,15 +100,15 @@ const Login: React.FC<WithUserDataProps> = (props) => {
                 prefix: <MobileOutlined className={"prefixIcon"} />,
               }}
               name="mobile"
-              placeholder="手机号"
+              placeholder="Phone number"
               rules={[
                 {
                   required: true,
-                  message: "请输入手机号！",
+                  message: "Please enter phone number!",
                 },
                 {
                   pattern: /^1\d{10}$/,
-                  message: "手机号格式错误！",
+                  message: "Phone number format is incorrect!",
                 },
               ]}
             />
@@ -120,13 +120,13 @@ const Login: React.FC<WithUserDataProps> = (props) => {
               captchaProps={{
                 size: "large",
               }}
-              placeholder="请输入验证码"
+              placeholder="Please enter OTP"
               captchaTextRender={(timing, count) =>
-                timing ? `${count} 获取验证码` : "获取验证码"
+                timing ? `${count} Get OTP` : "Get OTP"
               }
               phoneName="mobile"
               name="captcha"
-              rules={[{ required: true, message: "请输入验证码！" }]}
+              rules={[{ required: true, message: "Please enter OTP" }]}
               onGetCaptcha={async (tel) => {
                 const res = await runSendOTP({ variables: { tel } });
                 if (res.data.sendOTP.code === 200) {
@@ -138,9 +138,9 @@ const Login: React.FC<WithUserDataProps> = (props) => {
             />
             <div style={{ marginBlockEnd: 24 }}>
               <ProFormCheckbox noStyle name="autoLogin">
-                自动登录
+                Remember me
               </ProFormCheckbox>
-              <a style={{ float: "right" }}>忘记密码</a>
+              <a style={{ float: "right" }}>Forget password?</a>
             </div>
           </LoginForm>
         </div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeepPartial, Repository } from 'typeorm';
+import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 import { Organization } from './models/organization.entity';
 @Injectable()
 export class OrganizationService {
@@ -47,13 +47,16 @@ export class OrganizationService {
   async findOrganizations({
     start,
     length,
+    where,
   }: {
     start: number;
     length: number;
+    where: FindOptionsWhere<Organization>;
   }): Promise<[Organization[], number]> {
     return this.OrganizationRepository.findAndCount({
       take: length,
       skip: start,
+      where,
       order: {
         createdAt: 'DESC',
       },
