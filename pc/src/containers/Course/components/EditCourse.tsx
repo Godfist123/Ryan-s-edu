@@ -27,13 +27,15 @@ const EditCourse: React.FC<EditCourseProps> = ({
   onCloseAndRefetch,
 }) => {
   const [form] = useForm();
-  const [handleEdit] = useEditInfo();
+  const [handleEdit, loading] = useEditInfo();
   const { refetch } = useGetCourseInfo();
   useEffect(() => {
     if (id) {
       refetch({ id }).then((res) => {
         form.setFieldsValue(res.data.getCourseInfo.data);
       });
+    } else {
+      form.resetFields();
     }
   }, [id]);
 
@@ -56,7 +58,7 @@ const EditCourse: React.FC<EditCourseProps> = ({
         extra={
           <Space>
             <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={onSubmitHandler} type="primary">
+            <Button onClick={onSubmitHandler} type="primary" loading={loading}>
               Submit
             </Button>
           </Space>
