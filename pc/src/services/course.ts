@@ -1,7 +1,9 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { DEFAULT_PAGE_SIZE } from "../utils/constants";
-import { getCourses } from "../graphql/course";
-import { IPage } from "./org";
+import { COMMIT_COURSE, getCourses, get_course_info } from "../graphql/course";
+import { IPage, TBaseOrganization } from "./org";
+import { message } from "antd";
+import { COMMIT_ORG } from "../graphql/org";
 
 export interface ICourse {
   id: string;
@@ -22,6 +24,7 @@ export type TCourseQuery = {
     page: IPage;
   };
 };
+export type TBaseCourse = Partial<ICourse>;
 
 export const useCourses = (
   pageNum = 1,
@@ -62,4 +65,30 @@ export const useCourses = (
     page: data?.getCourses.page,
     data: data?.getCourses.data,
   };
+};
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const useEditInfo = (): [handleEdit: Function, loading: boolean] => {
+  const [edit, { loading }] = useMutation(COMMIT_COURSE);
+
+  const handleEdit = async (id: number, params: TBaseCourse) => {
+    const res = await edit({
+      variables: {
+        id,
+        params,
+      },
+    });
+    if (res.data.commitCourseInfo.code === 200) {
+      message.info(res.data.commitCourseInfo.message);
+      return;
+    }
+    message.error(res.data.commitCourseInfo.message);
+  };
+
+  return [handleEdit, loading];
+};
+
+export const useGetCourseInfo = () => {
+  const { data, refetch } = useQuery(get_course_info, { skip: true });
+  return { data, refetch };
 };

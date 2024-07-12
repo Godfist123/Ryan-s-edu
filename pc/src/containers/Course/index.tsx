@@ -1,21 +1,61 @@
-import { PageContainer, ProTable } from "@ant-design/pro-components";
-import React from "react";
+import {
+  ActionType,
+  PageContainer,
+  ProTable,
+} from "@ant-design/pro-components";
+import React, { useRef, useState } from "react";
 import { ICourse, useCourses } from "../../services/course";
-import { COLUMN } from "../../utils/constants";
+import { getColumns } from "../../utils/constants";
+import { Button } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import EditCourse from "./components/EditCourse";
 
 interface CourseProps {
   // Define your props here
 }
 
-const Course: React.FC<CourseProps> = (props) => {
+const Course: React.FC<CourseProps> = () => {
+  const actionRef = useRef<ActionType>();
+  const [curId, setCurId] = useState("");
   const { data, refetch } = useCourses();
+  const [showDrawer, setShowDrawer] = useState(false);
+
+  const onClickHandler = (id?: string) => {
+    if (id) {
+      setCurId(id);
+    } else {
+      setCurId("");
+    }
+    setShowDrawer(true);
+  };
+
+  const closeAndRefetchHandler = () => {
+    console.log("closeAndRefetchHandler");
+    setShowDrawer(false);
+    actionRef.current?.reload();
+  };
+
   return (
     <PageContainer header={{ title: "courses in this store" }}>
       <ProTable<ICourse>
-        columns={COLUMN}
+        rowKey="id"
+        actionRef={actionRef}
+        columns={getColumns(onClickHandler)}
         dataSource={data}
         pagination={{
           pageSize: 10,
+        }}
+        toolBarRender={() => {
+          return [
+            <Button
+              key="add"
+              type="primary"
+              onClick={() => onClickHandler()}
+              icon={<PlusOutlined />}
+            >
+              new
+            </Button>,
+          ];
         }}
         request={async (params: {
           pageSize?: number;
@@ -33,6 +73,12 @@ const Course: React.FC<CourseProps> = (props) => {
             total: msg.page?.total,
           };
         }}
+      />
+      <EditCourse
+        id={curId}
+        open={showDrawer}
+        onClose={() => setShowDrawer(false)}
+        onCloseAndRefetch={closeAndRefetchHandler}
       />
     </PageContainer>
   );

@@ -19,3 +19,33 @@ export const getCourses = gql`
     }
   }
 `;
+
+export const COMMIT_COURSE = gql`
+  mutation commitCourseInfo($params: CourseInput!, $id: String) {
+    commitCourseInfo(params: $params, id: $id) {
+      code
+      message
+    }
+  }
+`;
+
+export const get_course_info = gql`
+  query getCourseInfo($id: String!) {
+    getCourseInfo(id: $id) {
+      code
+      message
+      data {
+        id
+        name
+        desc
+        group
+        prerequisites
+        maximum
+        duration
+        appointment
+        refund
+        other
+      }
+    }
+  }
+`;
