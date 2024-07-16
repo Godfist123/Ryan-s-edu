@@ -1,5 +1,6 @@
 import { CommonType } from 'src/share/dto/common.type';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { AppointmentTime } from './common.type';
 
 /**
  * Course type
@@ -55,4 +56,10 @@ export class CourseType extends CommonType {
     nullable: true,
   })
   other: string;
+
+  @Field(() => [AppointmentTime], {
+    description: 'appointment time',
+    nullable: true,
+  })
+  appointmentTime: AppointmentTime[];
 }

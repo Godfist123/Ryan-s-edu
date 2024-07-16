@@ -1,6 +1,7 @@
 import { IsInt, IsNotEmpty, Min } from 'class-validator';
 import { CommonEntity } from 'src/share/entity';
 import { Column, Entity } from 'typeorm';
+import { AppointmentTime } from '../dto/common.type';
 
 @Entity('Course')
 export class Course extends CommonEntity {
@@ -61,4 +62,10 @@ export class Course extends CommonEntity {
     nullable: true,
   })
   other: string;
+
+  @Column('simple-json', {
+    comment: 'AppointmentTime',
+    nullable: true,
+  })
+  appointmentTime: AppointmentTime[];
 }

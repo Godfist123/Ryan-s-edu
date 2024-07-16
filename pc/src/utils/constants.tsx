@@ -1,13 +1,12 @@
 import { ProColumns } from "@ant-design/pro-components";
 import { ICourse } from "../services/course";
-import { ReactElement } from "react";
-import { Button } from "antd";
-
+import { Button, Popconfirm, Space } from "antd";
 export const AUTH_TOKEN = "auth_token";
 export const DEFAULT_PAGE_SIZE = 10;
 
 export const getColumns = (
-  onEditHandler: (id: string) => void
+  onEditHandler: (id: string) => void,
+  onAvailableTimeHandler: (id: string) => void
 ): ProColumns<ICourse>[] => {
   return [
     {
@@ -25,7 +24,7 @@ export const getColumns = (
       search: false,
     },
     {
-      title: "操作",
+      title: "actions",
       valueType: "option",
       dataIndex: "id",
       align: "center",
@@ -34,10 +33,119 @@ export const getColumns = (
         <Button key="edit" type="link" onClick={() => onEditHandler(entity.id)}>
           Edit
         </Button>,
+        <Button
+          key="availableTime"
+          type="link"
+          onClick={() => onAvailableTimeHandler(entity.id)}
+        >
+          Available Time
+        </Button>,
       ],
     },
   ];
 };
+
+export interface IWeek {
+  key: string;
+  label: string;
+}
+
+export type TWeek =
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday"
+  | "sunday";
+
+export const DAY_OF_WEEK: IWeek[] = [
+  {
+    key: "monday",
+    label: "Monday",
+  },
+  {
+    key: "tuesday",
+    label: "Tuesday",
+  },
+  {
+    key: "wednesday",
+    label: "Wednesday",
+  },
+  {
+    key: "thursday",
+    label: "Thursday",
+  },
+  {
+    key: "friday",
+    label: "Friday",
+  },
+  {
+    key: "saturday",
+    label: "Saturday",
+  },
+  {
+    key: "sunday",
+    label: "Sunday",
+  },
+];
+
+export const getAvailableTimeColumns = (
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  onDeleteHandler: Function
+): ProColumns[] => [
+  {
+    title: "Index",
+    dataIndex: "key",
+    width: 50,
+    align: "center",
+  },
+  {
+    title: "StartTime",
+    dataIndex: "startTime",
+    valueType: "time",
+    width: 160,
+    align: "center",
+  },
+  {
+    title: "EndTime",
+    dataIndex: "endTime",
+    valueType: "time",
+    width: 160,
+    align: "center",
+  },
+  {
+    title: "Option",
+    valueType: "option",
+    width: 160,
+    align: "center",
+    render: (text, record, _, action) => (
+      <Space>
+        <a key="edit" onClick={() => action?.startEditable(record.key)}>
+          Edit
+        </a>
+        <Popconfirm
+          title="Alert"
+          description="This action can't be recover"
+          onConfirm={() => onDeleteHandler(record.key)}
+        >
+          <a key="delete">Delete</a>
+        </Popconfirm>
+      </Space>
+    ),
+  },
+];
+
+export interface IAvailableTime {
+  startTime: string;
+  endTime: string;
+  key: number;
+}
+
+export interface IWeekCourse {
+  week: TWeek;
+  availableTime: IAvailableTime[];
+}
 
 // export const COLUMN: ProColumns<ICourse>[] = [
 //   {

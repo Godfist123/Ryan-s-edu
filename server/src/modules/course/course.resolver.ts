@@ -3,7 +3,7 @@ import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/modules/auth/auth.guard';
 import { CourseResult, CourseResults } from './dto/result-course.output';
-import { CourseInput } from './dto/course.input';
+import { PartialCourseInput } from './dto/course.input';
 import { CourseType } from './dto/course.type';
 import { CourseService } from './course.service';
 import { CurUserId } from 'src/share/decorators/current-user.decorator';
@@ -41,7 +41,7 @@ export class CourseResolver {
 
   @Mutation(() => CourseResult)
   async commitCourseInfo(
-    @Args('params') params: CourseInput,
+    @Args('params') params: PartialCourseInput,
     @CurUserId() userId: string,
     @Args('id', { nullable: true }) id: string,
   ): Promise<Result> {

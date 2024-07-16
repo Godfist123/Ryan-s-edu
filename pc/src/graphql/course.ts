@@ -21,7 +21,7 @@ export const getCourses = gql`
 `;
 
 export const COMMIT_COURSE = gql`
-  mutation commitCourseInfo($params: CourseInput!, $id: String) {
+  mutation commitCourseInfo($params: PartialCourseInput!, $id: String) {
     commitCourseInfo(params: $params, id: $id) {
       code
       message
@@ -45,6 +45,14 @@ export const get_course_info = gql`
         appointment
         refund
         other
+        appointmentTime {
+          week
+          availableTime {
+            startTime
+            endTime
+            key
+          }
+        }
       }
     }
   }

@@ -9,6 +9,7 @@ import { getColumns } from "../../utils/constants";
 import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import EditCourse from "./components/EditCourse";
+import AvailableTime from "./components/AvailableTime";
 
 interface CourseProps {
   // Define your props here
@@ -19,6 +20,7 @@ const Course: React.FC<CourseProps> = () => {
   const [curId, setCurId] = useState("");
   const { data, refetch } = useCourses();
   const [showDrawer, setShowDrawer] = useState(false);
+  const [showAvailableTime, setShowAvailableTime] = useState(false);
 
   const onClickHandler = (id?: string) => {
     if (id) {
@@ -27,6 +29,11 @@ const Course: React.FC<CourseProps> = () => {
       setCurId("");
     }
     setShowDrawer(true);
+  };
+
+  const onAvailableTimeHandler = (id: string) => {
+    setCurId(id);
+    setShowAvailableTime(true);
   };
 
   const closeAndRefetchHandler = () => {
@@ -40,7 +47,7 @@ const Course: React.FC<CourseProps> = () => {
       <ProTable<ICourse>
         rowKey="id"
         actionRef={actionRef}
-        columns={getColumns(onClickHandler)}
+        columns={getColumns(onClickHandler, onAvailableTimeHandler)}
         dataSource={data}
         pagination={{
           pageSize: 10,
@@ -78,6 +85,12 @@ const Course: React.FC<CourseProps> = () => {
         id={curId}
         open={showDrawer}
         onClose={() => setShowDrawer(false)}
+        onCloseAndRefetch={closeAndRefetchHandler}
+      />
+      <AvailableTime
+        id={curId}
+        open={showAvailableTime}
+        onClose={() => setShowAvailableTime(false)}
         onCloseAndRefetch={closeAndRefetchHandler}
       />
     </PageContainer>

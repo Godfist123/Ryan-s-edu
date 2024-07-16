@@ -1,9 +1,8 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { DEFAULT_PAGE_SIZE } from "../utils/constants";
+import { DEFAULT_PAGE_SIZE, IWeekCourse } from "../utils/constants";
 import { COMMIT_COURSE, getCourses, get_course_info } from "../graphql/course";
-import { IPage, TBaseOrganization } from "./org";
+import { IPage } from "./org";
 import { message } from "antd";
-import { COMMIT_ORG } from "../graphql/org";
 
 export interface ICourse {
   id: string;
@@ -16,6 +15,7 @@ export interface ICourse {
   appointment?: string;
   refund?: string;
   other?: string;
+  appointmentTime: IWeekCourse[];
 }
 export type TCourseQuery = {
   [key: string]: {
@@ -26,11 +26,7 @@ export type TCourseQuery = {
 };
 export type TBaseCourse = Partial<ICourse>;
 
-export const useCourses = (
-  pageNum = 1,
-  pageSize = DEFAULT_PAGE_SIZE,
-  isSimple = false
-) => {
+export const useCourses = (pageNum = 1, pageSize = DEFAULT_PAGE_SIZE) => {
   const { data, loading, refetch } = useQuery<TCourseQuery>(getCourses, {
     skip: true,
     variables: {
@@ -67,11 +63,18 @@ export const useCourses = (
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export const useEditInfo = (): [handleEdit: Function, loading: boolean] => {
+export const useEditCourseInfo = (): [
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  handleEdit: Function,
+  loading: boolean
+] => {
   const [edit, { loading }] = useMutation(COMMIT_COURSE);
 
-  const handleEdit = async (id: number, params: TBaseCourse) => {
+  const handleEdit = async (
+    id: number,
+    params: TBaseCourse,
+    callback: () => void
+  ) => {
     const res = await edit({
       variables: {
         id,
@@ -80,6 +83,7 @@ export const useEditInfo = (): [handleEdit: Function, loading: boolean] => {
     });
     if (res.data.commitCourseInfo.code === 200) {
       message.info(res.data.commitCourseInfo.message);
+      callback();
       return;
     }
     message.error(res.data.commitCourseInfo.message);
@@ -91,4 +95,13 @@ export const useEditInfo = (): [handleEdit: Function, loading: boolean] => {
 export const useGetCourseInfo = () => {
   const { data, refetch } = useQuery(get_course_info, { skip: true });
   return { data, refetch };
+};
+
+export const useCourseInfo = (id: string) => {
+  const { data, loading, refetch } = useQuery<TCourseQuery>(get_course_info, {
+    variables: {
+      id,
+    },
+  });
+  return { data: data?.getCourseInfo.data, loading, refetch };
 };

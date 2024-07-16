@@ -1,4 +1,5 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, PartialType } from '@nestjs/graphql';
+import { AppointmentTime_Input } from './common.input';
 
 @InputType()
 export class CourseInput {
@@ -51,4 +52,13 @@ export class CourseInput {
     nullable: true,
   })
   other: string;
+
+  @Field(() => [AppointmentTime_Input], {
+    description: 'appointment time',
+    nullable: true,
+  })
+  appointmentTime: AppointmentTime_Input[];
 }
+
+@InputType()
+export class PartialCourseInput extends PartialType(CourseInput) {}

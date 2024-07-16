@@ -147,6 +147,25 @@ type OrganizationResults {
   page: Page
 }
 
+type AvailableTime {
+  """Available time start"""
+  startTime: String!
+
+  """Available time end"""
+  endTime: String!
+
+  """Available time key"""
+  key: Float!
+}
+
+type AppointmentTime {
+  """Week day"""
+  week: String!
+
+  """Available time"""
+  availableTime: [AvailableTime!]!
+}
+
 type CourseType {
   id: String!
   createdAt: DateTime!
@@ -182,6 +201,9 @@ type CourseType {
 
   """other"""
   other: String
+
+  """appointment time"""
+  appointmentTime: [AppointmentTime!]
 }
 
 type CourseResult {
@@ -236,7 +258,7 @@ type Mutation {
   commitStudentInfo(params: StudentInput!): StudentResult!
   commitOrganization(params: OrganizationInput!, id: String): OrganizationResult!
   deleteOrganization(id: String!): Result!
-  commitCourseInfo(params: CourseInput!, id: String): CourseResult!
+  commitCourseInfo(params: PartialCourseInput!, id: String): CourseResult!
   deleteCourse(id: String!): Result!
 }
 
@@ -307,9 +329,9 @@ input OrgImageInput {
   remark: String
 }
 
-input CourseInput {
+input PartialCourseInput {
   """course name"""
-  name: String!
+  name: String
 
   """course description"""
   desc: String
@@ -318,13 +340,13 @@ input CourseInput {
   group: String
 
   """prerequisites"""
-  prerequisites: String!
+  prerequisites: String
 
   """maximum number of students"""
-  maximum: Float!
+  maximum: Float
 
   """course duration"""
-  duration: Float!
+  duration: Float
 
   """appointment"""
   appointment: String
@@ -334,4 +356,26 @@ input CourseInput {
 
   """other"""
   other: String
+
+  """appointment time"""
+  appointmentTime: [AppointmentTime_Input!]
+}
+
+input AppointmentTime_Input {
+  """Week day"""
+  week: String!
+
+  """Available time"""
+  availableTime: [AvailableTime_Input!]!
+}
+
+input AvailableTime_Input {
+  """Available time start"""
+  startTime: String!
+
+  """Available time end"""
+  endTime: String!
+
+  """Available time key"""
+  key: Float!
 }

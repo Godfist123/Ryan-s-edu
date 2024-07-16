@@ -11,7 +11,7 @@ import {
 import { useForm } from "antd/es/form/Form";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useEffect } from "react";
-import { useEditInfo, useGetCourseInfo } from "../../../services/course";
+import { useEditCourseInfo, useGetCourseInfo } from "../../../services/course";
 
 interface EditCourseProps {
   id?: string;
@@ -27,7 +27,7 @@ const EditCourse: React.FC<EditCourseProps> = ({
   onCloseAndRefetch,
 }) => {
   const [form] = useForm();
-  const [handleEdit, loading] = useEditInfo();
+  const [handleEdit, loading] = useEditCourseInfo();
   const { refetch } = useGetCourseInfo();
   useEffect(() => {
     if (id) {
