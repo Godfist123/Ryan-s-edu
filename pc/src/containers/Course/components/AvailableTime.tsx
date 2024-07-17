@@ -7,6 +7,8 @@ import {
   IWeekCourse,
   TWeek,
   getAvailableTimeColumns,
+  getMaxKey,
+  isWorkDays,
 } from "../../../utils/constants";
 import { EditableProTable } from "@ant-design/pro-components";
 import { ChromeOutlined, RedoOutlined } from "@ant-design/icons";
@@ -21,32 +23,17 @@ interface AvailableTimeProps {
   onCloseAndRefetch: () => void;
 }
 
-const AvailableTime: React.FC<AvailableTimeProps> = ({
-  open,
-  onClose,
-  id,
-  onCloseAndRefetch,
-}) => {
+const AvailableTime: React.FC<AvailableTimeProps> = ({ open, onClose, id }) => {
   const [currentDay, setCurrentDay] = useState<IWeek>(DAY_OF_WEEK[0]);
   const { refetch, data, loading } = useCourseInfo(id as string);
   const [edit, editLoading] = useEditCourseInfo();
 
   const availableTime = useMemo(() => {
-    return (data?.appointmentTime || []).find(
-      (item) => item.week === currentDay.key
-    )?.availableTime as IAvailableTime[];
-  }, [data]);
-
-  const onTabChangeHandler = (key: string) => {
-    const current = DAY_OF_WEEK.find((item) => item.key === key);
-    if (current) {
-      setCurrentDay(current);
-    }
-  };
-
-  const onDeleteHandler = (key: number) => {
-    console.log("onDeleteHandler", key);
-  };
+    return (
+      (data?.appointmentTime || []).find((item) => item.week === currentDay.key)
+        ?.availableTime || []
+    );
+  }, [data, currentDay]);
 
   const onSaveHandler = (availableTime: IAvailableTime[]) => {
     const newAppointmentTime = [...(data?.appointmentTime || [])];
@@ -64,10 +51,64 @@ const AvailableTime: React.FC<AvailableTimeProps> = ({
         availableTime,
       });
     }
+    console.log("newAppointmentTime", newAppointmentTime);
     edit(
       id,
       {
         appointmentTime: newAppointmentTime,
+      },
+      () => {
+        refetch();
+      }
+    );
+  };
+
+  const onTabChangeHandler = (key: string) => {
+    const current = DAY_OF_WEEK.find((item) => item.key === key);
+    if (current) {
+      setCurrentDay(current);
+    }
+  };
+
+  const onDeleteHandler = (key: number) => {
+    const newData = availableTime?.filter((item) => item.key !== key);
+    onSaveHandler(newData);
+  };
+
+  const SyncToWorkdaysHandler = () => {
+    const workDaysStack: IWeekCourse[] = [];
+    DAY_OF_WEEK.forEach((item) => {
+      if (item.key !== "saturday" && item.key !== "sunday") {
+        workDaysStack.push({
+          week: item.key as TWeek,
+          availableTime: availableTime,
+        });
+        console.log("workDaysStack", workDaysStack);
+      }
+    });
+    edit(
+      id,
+      {
+        appointmentTime: workDaysStack,
+      },
+      () => {
+        refetch();
+      }
+    );
+  };
+
+  const SyncToWholeWeekHandler = () => {
+    const wholeWeekStack: IWeekCourse[] = [];
+    DAY_OF_WEEK.forEach((item) => {
+      wholeWeekStack.push({
+        week: item.key as TWeek,
+        availableTime: availableTime,
+      });
+    });
+    edit(
+      id,
+      {
+        appointmentTime: wholeWeekStack,
       },
       () => {
         refetch();
@@ -89,6 +130,7 @@ const AvailableTime: React.FC<AvailableTimeProps> = ({
           onChange={onTabChangeHandler}
         ></Tabs>
         <EditableProTable<IAvailableTime>
+          loading={loading || editLoading}
           headerTitle={
             <Space>
               Select Courses on <span>{currentDay.label}</span>
@@ -97,8 +139,8 @@ const AvailableTime: React.FC<AvailableTimeProps> = ({
           rowKey="key"
           value={availableTime}
           recordCreatorProps={{
-            record: (index: number) => ({
-              key: index + 1,
+            record: () => ({
+              key: getMaxKey(availableTime),
               startTime: "12:00:00",
               endTime: "12:30:00",
             }),
@@ -143,6 +185,8 @@ const AvailableTime: React.FC<AvailableTimeProps> = ({
           <Col span={12} style={{}}>
             <Button
               icon={<RedoOutlined />}
+              disabled={!isWorkDays(currentDay.key)}
+              onClick={SyncToWorkdaysHandler}
               style={{ width: "100%" }}
               type="primary"
             >
@@ -153,6 +197,7 @@ const AvailableTime: React.FC<AvailableTimeProps> = ({
             <Button
               icon={<ChromeOutlined />}
               style={{ width: "100%" }}
+              onClick={SyncToWholeWeekHandler}
               type="primary"
               danger
             >

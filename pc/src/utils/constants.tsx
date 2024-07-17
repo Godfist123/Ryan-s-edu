@@ -147,6 +147,29 @@ export interface IWeekCourse {
   availableTime: IAvailableTime[];
 }
 
+export const isWorkDays = (day: string): boolean => {
+  return (
+    day === "monday" ||
+    day === "tuesday" ||
+    day === "wednesday" ||
+    day === "thursday" ||
+    day === "friday"
+  );
+};
+
+export const getMaxKey = (availableTime: IAvailableTime[]): number => {
+  if (availableTime === undefined || availableTime.length === 0) {
+    return 1;
+  }
+  let max = 0;
+  availableTime.forEach((item) => {
+    if (item.key > max) {
+      max = item.key;
+    }
+  });
+  return max + 1;
+};
+
 // export const COLUMN: ProColumns<ICourse>[] = [
 //   {
 //     title: " name",

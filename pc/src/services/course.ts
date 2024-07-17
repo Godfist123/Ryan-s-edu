@@ -24,6 +24,14 @@ export type TCourseQuery = {
     page: IPage;
   };
 };
+
+export type TCourseSingleQuery = {
+  [key: string]: {
+    __typename?: "Query";
+    data: ICourse;
+    page: IPage;
+  };
+};
 export type TBaseCourse = Partial<ICourse>;
 
 export const useCourses = (pageNum = 1, pageSize = DEFAULT_PAGE_SIZE) => {
@@ -98,10 +106,13 @@ export const useGetCourseInfo = () => {
 };
 
 export const useCourseInfo = (id: string) => {
-  const { data, loading, refetch } = useQuery<TCourseQuery>(get_course_info, {
-    variables: {
-      id,
-    },
-  });
+  const { data, loading, refetch } = useQuery<TCourseSingleQuery>(
+    get_course_info,
+    {
+      variables: {
+        id,
+      },
+    }
+  );
   return { data: data?.getCourseInfo.data, loading, refetch };
 };
