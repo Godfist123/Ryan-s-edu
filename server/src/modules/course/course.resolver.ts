@@ -17,6 +17,7 @@ import {
 } from 'src/share/constants/status_code';
 import { Course } from './models/course.entity';
 import { FindOptionsWhere, Like } from 'typeorm';
+import { CurOrgId } from 'src/share/decorators/current-org.decorator';
 
 @Resolver(() => CourseType)
 @UseGuards(GqlAuthGuard)
@@ -43,12 +44,14 @@ export class CourseResolver {
   async commitCourseInfo(
     @Args('params') params: PartialCourseInput,
     @CurUserId() userId: string,
+    @CurOrgId() orgId: string,
     @Args('id', { nullable: true }) id: string,
   ): Promise<Result> {
     if (!id) {
       const res = await this.courseService.create({
         ...params,
         createdBy: userId,
+        org: { id: orgId },
       });
       if (res) {
         return {
@@ -88,10 +91,14 @@ export class CourseResolver {
   async getCourses(
     @Args('page') page: PageInput,
     @CurUserId() userId: string,
+    @CurOrgId() orgId: string,
     @Args('name', { nullable: true }) name: string,
   ): Promise<CourseResults> {
     const { pageNum, pageSize } = page;
-    const where: FindOptionsWhere<Course> = { createdBy: userId };
+    const where: FindOptionsWhere<Course> = {
+      createdBy: userId,
+      org: { id: orgId },
+    };
     if (name) {
       where.name = Like(`%${name}%`);
     }

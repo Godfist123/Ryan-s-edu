@@ -6,6 +6,7 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { AUTH_TOKEN } from "./constants";
+import { currentOrg } from ".";
 
 // Create an HTTP link to your GraphQL server
 const httpLink = createHttpLink({
@@ -19,6 +20,7 @@ const authLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
       authorization: token ? `Bearer ${token}` : "",
+      orgId: currentOrg()?.value,
     },
   };
 });

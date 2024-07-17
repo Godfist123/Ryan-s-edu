@@ -16,12 +16,10 @@ import { useEditCourseInfo, useGetCourseInfo } from "../../../services/course";
 interface EditCourseProps {
   id?: string;
   onClose: () => void;
-  open: boolean;
   onCloseAndRefetch: () => void;
 }
 
 const EditCourse: React.FC<EditCourseProps> = ({
-  open,
   onClose,
   id,
   onCloseAndRefetch,
@@ -42,10 +40,7 @@ const EditCourse: React.FC<EditCourseProps> = ({
   const onSubmitHandler = async () => {
     const data = await form.validateFields();
     if (data) {
-      handleEdit(id, data);
-      setTimeout(() => {
-        onCloseAndRefetch();
-      }, 500);
+      handleEdit(id, data, onCloseAndRefetch);
     }
   };
   return (
@@ -53,8 +48,8 @@ const EditCourse: React.FC<EditCourseProps> = ({
       <Drawer
         title={id ? "Edit Course" : "Create New Course"}
         width={720}
-        open={open}
         onClose={onClose}
+        open
         extra={
           <Space>
             <Button onClick={onClose}>Cancel</Button>

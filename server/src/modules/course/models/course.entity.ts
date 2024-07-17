@@ -1,7 +1,8 @@
 import { IsInt, IsNotEmpty, Min } from 'class-validator';
 import { CommonEntity } from 'src/share/entity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { AppointmentTime } from '../dto/common.type';
+import { Organization } from 'src/modules/organization/models/organization.entity';
 
 @Entity('Course')
 export class Course extends CommonEntity {
@@ -68,4 +69,9 @@ export class Course extends CommonEntity {
     nullable: true,
   })
   appointmentTime: AppointmentTime[];
+
+  @ManyToOne(() => Organization, (organization) => organization.courses, {
+    cascade: true,
+  })
+  org: Organization;
 }

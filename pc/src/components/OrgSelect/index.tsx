@@ -7,18 +7,12 @@ import withUser, {
   WithUserDataProps,
 } from "../../utils/context/WithUserContext";
 import { useNavigate } from "react-router-dom";
+import { currentOrg } from "../../utils";
 
 interface OrgSelectorProps extends WithUserDataProps {
   // Define your props here
 }
-const currentOrg = () => {
-  try {
-    const res = JSON.parse(localStorage.getItem("currentOrg") || "");
-    return res;
-  } catch {
-    return undefined;
-  }
-};
+
 const OrgSelector: React.FC<OrgSelectorProps> = ({ userData, setUserData }) => {
   const { data, refetch } = useOrganizations(1, 10, true);
   const Navi = useNavigate();

@@ -19,11 +19,10 @@ import _ from "lodash";
 interface AvailableTimeProps {
   id?: string;
   onClose: () => void;
-  open: boolean;
   onCloseAndRefetch: () => void;
 }
 
-const AvailableTime: React.FC<AvailableTimeProps> = ({ open, onClose, id }) => {
+const AvailableTime: React.FC<AvailableTimeProps> = ({ onClose, id }) => {
   const [currentDay, setCurrentDay] = useState<IWeek>(DAY_OF_WEEK[0]);
   const { refetch, data, loading } = useCourseInfo(id as string);
   const [edit, editLoading] = useEditCourseInfo();
@@ -118,12 +117,7 @@ const AvailableTime: React.FC<AvailableTimeProps> = ({ open, onClose, id }) => {
 
   return (
     <div>
-      <Drawer
-        title={"Available Time"}
-        width={720}
-        open={open}
-        onClose={onClose}
-      >
+      <Drawer title={"Available Time"} open width={720} onClose={onClose}>
         <Tabs
           type="card"
           items={DAY_OF_WEEK}

@@ -1,16 +1,18 @@
 import { MenuDataItem, ProLayout } from "@ant-design/pro-components";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useOutlet } from "react-router-dom";
+import { Link, useLocation, useNavigate, useOutlet } from "react-router-dom";
 import styles from "./index.module.scss";
 import { useGetUserByToken } from "../../hooks/useGetUserByToken";
-import withUser from "../../utils/context/WithUserContext";
+import withUser, {
+  WithUserDataProps,
+} from "../../utils/context/WithUserContext";
 import { LogoutOutlined, ShopOutlined } from "@ant-design/icons";
 import { AUTH_TOKEN } from "../../utils/constants";
 import { routes } from "../../routes";
 import { Space, Tooltip } from "antd";
 import OrgSelector from "../OrgSelect";
 
-interface LayoutProps {
+interface LayoutProps extends WithUserDataProps {
   // Define your props here
 }
 
@@ -23,6 +25,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
   const { data } = useGetUserByToken(props);
   const Navi = useNavigate();
   const [avatarUrl, setAvatarUrl] = useState<string>();
+  const location = useLocation();
 
   useEffect(() => {
     if (data?.avatarUrl) {
@@ -72,7 +75,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
         Navi("/home");
       }}
       actionsRender={() => [
-        <OrgSelector />,
+        location.pathname !== "/org" && <OrgSelector />,
         <Tooltip title="Org Management">
           <ShopOutlined
             onClick={() => {
@@ -83,7 +86,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
       ]}
       menuItemRender={menuItemRender}
     >
-      {outlet}
+      <div key={props.userData.currentOrg}>{outlet}</div>
     </ProLayout>
   );
 };

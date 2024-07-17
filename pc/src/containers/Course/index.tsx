@@ -81,18 +81,20 @@ const Course: React.FC<CourseProps> = () => {
           };
         }}
       />
-      <EditCourse
-        id={curId}
-        open={showDrawer}
-        onClose={() => setShowDrawer(false)}
-        onCloseAndRefetch={closeAndRefetchHandler}
-      />
-      <AvailableTime
-        id={curId}
-        open={showAvailableTime}
-        onClose={() => setShowAvailableTime(false)}
-        onCloseAndRefetch={closeAndRefetchHandler}
-      />
+      {showDrawer && (
+        <EditCourse
+          id={curId}
+          onClose={() => setShowDrawer(false)}
+          onCloseAndRefetch={closeAndRefetchHandler}
+        />
+      )}
+      {showAvailableTime && (
+        <AvailableTime
+          id={curId}
+          onClose={() => setShowAvailableTime(false)}
+          onCloseAndRefetch={closeAndRefetchHandler}
+        />
+      )}
     </PageContainer>
   );
 };
